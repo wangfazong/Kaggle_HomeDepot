@@ -8,7 +8,7 @@ Team: Turing test
 
 """
 
-from config_IgorKostia import * 
+from .config_IgorKostia import * 
  
 import os
 import pandas as pd
@@ -65,7 +65,7 @@ df_all = pd.merge(df_all, df_tfidf_intersept_new, how='left', on='id')
 #df_all = pd.merge(df_all, df_all2, how='left', on='id')
 
 all_names=df_all.keys()
-print len(df_all.keys())
+print( len(df_all.keys()))
 list_of_features=df_all.keys()
 new_list=[] 
 for var in list_of_features:
@@ -149,17 +149,17 @@ def run(X,Y,X2,bclf,iteration):
     blend_train = np.zeros((X_dev.shape[0], len(clfs))) # Number of training data x Number of classifiers
     blend_test = np.zeros((X_test.shape[0], len(clfs))) # Number of testing data x Number of classifiers
      
-    print 'X_test.shape = %s' % (str(X_test.shape))
-    print 'blend_train.shape = %s' % (str(blend_train.shape))
-    print 'blend_test.shape = %s' % (str(blend_test.shape))
+    print( 'X_test.shape = %s' % (str(X_test.shape)))
+    print( 'blend_train.shape = %s' % (str(blend_train.shape)))
+    print( 'blend_test.shape = %s' % (str(blend_test.shape)))
     
     # For each classifier, we train the number of fold times (=len(skf))
     for j, clf in enumerate(clfs):
-        print 'Training classifier [%s]' % (clf) 
-        print 'Training classifier [%s]' % ((j+1.0)/len(clfs))
+        print( 'Training classifier [%s]' % (clf) )
+        print( 'Training classifier [%s]' % ((j+1.0)/len(clfs)))
         t0=time()
         for i, (train_index, cv_index) in enumerate(skf):
-            print 'Fold [%s]' % (i)
+            print( 'Fold [%s]' % (i))
             
             # This is the training and validation set
             X_train = X_dev[train_index]
@@ -172,17 +172,17 @@ def run(X,Y,X2,bclf,iteration):
             # This output will be the basis for our blended classifier to train against,
             # which is also the output of our classifiers
             blend_train[cv_index, j] = clf.predict(X_cv)
-            print sqrt(metrics.mean_squared_error(Y_cv, blend_train[cv_index, j]))
-        print sqrt(metrics.mean_squared_error(Y_dev, blend_train[:,j]))
+            print( sqrt(metrics.mean_squared_error(Y_cv, blend_train[cv_index, j])))
+        print( sqrt(metrics.mean_squared_error(Y_dev, blend_train[:,j])))
         
         clf.fit(X_dev, Y_dev)
         blend_test[:, j]=clf.predict(X_test)
-        print 'train time:',round(time()-t0,3) ,'s\n'
-    print 'Y_dev.shape = %s' % (Y_dev.shape)
+        print( 'train time:',round(time()-t0,3) ,'s\n')
+    print( 'Y_dev.shape = %s' % (Y_dev.shape))
     
     bclf.fit(blend_train, Y_dev)
     Y_test_predict = bclf.predict(blend_test)
-    print 'all time:',round(time()-t00,3) ,'s\n'
+    print( 'all time:',round(time()-t00,3) ,'s\n')
     
     return Y_test_predict, blend_test, blend_train, Y_dev
 
@@ -190,7 +190,7 @@ def run(X,Y,X2,bclf,iteration):
 
     # run many times to get a better result, it's not quite stable.
 for i in range(100,130):
-        print 'Iteration [%s]' % (i)
+        print( 'Iteration [%s]' % (i))
         
         bclf = LinearRegression()
         tmp_list=list_of_features
@@ -209,7 +209,7 @@ for i in range(100,130):
             R=21
         if R>len(list_of_features)-20:
             R= len(list_of_features) - 21
-        print R
+        print( R)
         pred, bx_test, bx_train, by_train = run(X1_f,Y1, X2_f,bclf,"first"+str(i)+"")
         pd.DataFrame({"number": FP, "feature_name": first_part}).to_csv(MODELS_DIR+"/first_part_"+str(i)+".csv",index=False) 
         pd.DataFrame(bx_train).to_csv(MODELS_DIR+"/train_first_"+str(i)+".csv",index=False) 

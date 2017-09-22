@@ -6,7 +6,7 @@ Author: Kostia Omelianchuk
 Team: Turing test
 """
 
-from config_IgorKostia import *
+from .config_IgorKostia import *
 
 import os
 import pandas as pd
@@ -154,7 +154,7 @@ mn_rmse=1
 model_n=0
 for i in range(0,len(train.keys())-1):
      for j, (train_index, cv_index) in enumerate(skf):
-            #print 'Fold [%s]' % (j)
+            #print( 'Fold [%s]' % (j)
             
             # This is the training and validation set
             X_train = X_tr[:,i][train_index]
@@ -170,9 +170,9 @@ for i in range(0,len(train.keys())-1):
             
      if sqrt(metrics.mean_squared_error(y_tr, blend_train))<mn_rmse:
             mn_rmse=sqrt(metrics.mean_squared_error(y_tr, blend_train))
-            print i, mn_rmse
+            print( i, mn_rmse)
             model_n=i
-     #print i, sqrt(metrics.mean_squared_error(y_tr, blend_train))
+     #print( i, sqrt(metrics.mean_squared_error(y_tr, blend_train))
 model_list=list()
 model_list.append(model_n)
 
@@ -221,11 +221,11 @@ for j in range(len(train.keys())-1):
     model_list.append(model_n)
     model_collection=np.vstack((model_collection,X_tr[:,model_n]))
 
-    print model_list
-    print cur_mn
+    print( model_list)
+    print( cur_mn)
 
 
-print len(model_list)    
+print( len(model_list)    )
 
 #choose top12 models     
 model_list2=model_list[0:12]
@@ -250,4 +250,4 @@ pd.DataFrame({"id": id_test, "relevance": pred1}).to_csv(MODELS_DIR+"/submission
 #import statsmodels.api as sm
 #X_new = sm.add_constant(  X_new  )
 #results = sm.OLS(y, X_new).fit()
-#print results.summary()
+#print( results.summary()

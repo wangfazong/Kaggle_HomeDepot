@@ -8,7 +8,7 @@ Author: Igor Buinyi
 Team: Turing test
 """
 
-from config_IgorKostia import *
+from .config_IgorKostia import *
 
 import numpy as np
 import pandas as pd
@@ -54,13 +54,13 @@ drop_list+=['description_similarity_10',	'description_similarity_11-20',	'descri
             'word_in_title_string_only_num',	'word_in_title_string_only_sum',	'word_in_title_string_only_let']
 
 
-print len(df_all.keys())
+print( len(df_all.keys()))
 new_drop_list=[]
 for var in drop_list:
     if var in df_all.keys():
         new_drop_list.append(var)
 df_all=df_all.drop(new_drop_list,axis=1)
-print len(df_all.keys())
+print( len(df_all.keys()))
 
 
 # generate matrices to be used in clf
@@ -91,8 +91,8 @@ pd.DataFrame({"id": id_test, "relevance": y_pred}).to_csv(MODELS_DIR+'/submissio
 sorted_idx = np.argsort(clf.feature_importances_)
 pd.DataFrame({"name":df_all.keys().drop(['id','relevance'])[sorted_idx], "importance": clf.feature_importances_[sorted_idx]}).to_csv(MODELS_DIR+'/feature_importances_benchmark_without_dummies.csv',index=False)
 
-print "file saved"
-print 'modelling time:',round((time()-t0)/60,1) ,'minutes\n'
+print( "file saved")
+print( 'modelling time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -140,7 +140,7 @@ pd.DataFrame({"id": id_test, "relevance": y_pred}).to_csv(MODELS_DIR+'/submissio
 sorted_idx = np.argsort(clf.feature_importances_)
 pd.DataFrame({"name":df_all.keys().drop(['id','relevance'])[sorted_idx], "importance": clf.feature_importances_[sorted_idx]}).to_csv(MODELS_DIR+'/feature_importances_benchmark_top40_and_dummies.csv',index=False)
 
-print "file saved"
-print 'modelling time:',round((time()-t0)/60,1) ,'minutes\n'
+print( "file saved")
+print( 'modelling time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 

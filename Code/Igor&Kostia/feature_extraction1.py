@@ -7,7 +7,7 @@ Author: Igor Buinyi
 Team: Turing test
 """
 
-from config_IgorKostia import *
+from .config_IgorKostia import *
 
 import numpy as np
 import pandas as pd
@@ -23,7 +23,7 @@ stoplist.append('till')
 stoplist_wo_can=stoplist[:]
 stoplist_wo_can.remove('can')
 
-from homedepot_functions import *
+from .homedepot_functions import *
 
 
 t0 = time()
@@ -36,14 +36,14 @@ t1 = time()
 df_pro_desc = pd.read_csv(PROCESSINGTEXT_DIR+'/df_product_descriptions_processed.csv')
 df_attr_bullets = pd.read_csv(PROCESSINGTEXT_DIR+'/df_attribute_bullets_processed.csv')
 df_all = pd.read_csv(PROCESSINGTEXT_DIR+'/df_train_and_test_processed.csv')
-print 'loading time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'loading time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
 
 df_all = pd.merge(df_all, df_pro_desc, how='left', on='product_uid')
 df_all = pd.merge(df_all, df_attr_bullets, how='left', on='product_uid')
-print 'merging time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'merging time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -79,12 +79,12 @@ df_all['product_title_without_stemmed']=df_all['product_title_parsed_without'].m
 
 ### save the list of string variables which are not features
 string_variables_list=list(df_all.keys())
-print str(len(string_variables_list) ) + " total variables..."
+print( str(len(string_variables_list) ) + " total variables...")
 string_variables_list.remove('id')
 string_variables_list.remove('product_uid')
 string_variables_list.remove('relevance')
 string_variables_list.remove('is_query_misspelled')
-print "including "+ str(len(string_variables_list) ) + " text variables to drop later"
+print( "including "+ str(len(string_variables_list) ) + " text variables to drop later")
 
 
 
@@ -98,7 +98,7 @@ df_all['has_attributes_dummy']= df_all['has_attributes_dummy'].fillna(0)
 
 
 df_all['no_bullets_dummy'] = df_all['attribute_bullets'].map(lambda x:int(len(x)==0))
-from google_dict import *
+from .google_dict import *
 df_all['is_replaced_using_google_dict']=df_all['search_term'].map(lambda x: 1 if x in google_dict.keys() else 0)
 
 
@@ -217,7 +217,7 @@ for column_name in ['search_term', 'product_title', 'product_description','attri
 
 
 
-print 'len_of_something time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'len_of_something time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -233,7 +233,7 @@ df_all['perc_digits_in_title'] = df_all['product_title_stemmed'].map(lambda x: p
 df_all['perc_digits_in_description'] = df_all['product_description_stemmed'].map(lambda x: perc_digits_in_str(x) )
 df_all['perc_digits_in_bullets'] = df_all['attribute_bullets_stemmed'].map(lambda x: perc_digits_in_str(x) )
 
-print 'perc_digits time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'perc_digits time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -336,7 +336,7 @@ df_all=df_all.drop(['query_brand_in_bullets_tuple'],axis=1)
 
 df_all=df_all.drop(['brands_all'],axis=1)
 
-print 'create brand match variables time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'create brand match variables time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -376,7 +376,7 @@ df_all=df_all.drop(['query_material_in_bullets_tuple'],axis=1)
 
 df_all=df_all.drop(['materials_all'],axis=1)
 
-print 'create material match variables time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'create material match variables time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -539,7 +539,7 @@ df_all['vbg_in_vbg_in_title_num'] = df_all['vbg_in_vbg_in_title_tuple'].map(lamb
 df_all['vbg_in_vbg_in_title_sum'] = df_all['vbg_in_vbg_in_title_tuple'].map(lambda x: x[1])
 df_all['vbg_in_vbg_in_title_let'] = df_all['vbg_in_vbg_in_title_tuple'].map(lambda x: x[2])
 df_all=df_all.drop(['vbg_in_vbg_in_title_tuple'],axis=1)
-print 'words_in_title time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'words_in_title time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -674,7 +674,7 @@ df_all['vbg_in_vbg_in_description_num'] = df_all['vbg_in_vbg_in_description_tupl
 df_all['vbg_in_vbg_in_description_sum'] = df_all['vbg_in_vbg_in_description_tuple'].map(lambda x: x[1])
 df_all['vbg_in_vbg_in_description_let'] = df_all['vbg_in_vbg_in_description_tuple'].map(lambda x: x[2])
 df_all=df_all.drop(['vbg_in_vbg_in_description_tuple'],axis=1)
-print 'words_in_description time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'words_in_description time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -811,7 +811,7 @@ df_all['vbg_in_vbg_in_bullets_num'] = df_all['vbg_in_vbg_in_bullets_tuple'].map(
 df_all['vbg_in_vbg_in_bullets_sum'] = df_all['vbg_in_vbg_in_bullets_tuple'].map(lambda x: x[1])
 df_all['vbg_in_vbg_in_bullets_let'] = df_all['vbg_in_vbg_in_bullets_tuple'].map(lambda x: x[2])
 df_all=df_all.drop(['vbg_in_vbg_in_bullets_tuple'],axis=1)
-print 'words_in_bullets time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'words_in_bullets time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -973,7 +973,7 @@ my_dict={}
 for i in range(0,len(aa)):
     my_dict[aa[i]]=find_similarity(aa[i].split("\t")[0],aa[i].split("\t")[1])
     if (i % 5000)==0:
-        print ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes"
+        print( ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes")
     
 df_all['thekeys_similarity_tuple']=df_all['key_for_dict'].map(lambda x: my_dict[x] )
 df_all['thekeys_pathsimilarity_max'] = df_all['thekeys_similarity_tuple'].map(lambda x: x[0])
@@ -983,7 +983,7 @@ df_all['thekeys_lchsimilarity_mean'] = df_all['thekeys_similarity_tuple'].map(la
 df_all['thekeys_ressimilarity_max'] = df_all['thekeys_similarity_tuple'].map(lambda x: x[4])
 df_all['thekeys_ressimilarity_mean'] = df_all['thekeys_similarity_tuple'].map(lambda x: x[5])
 df_all=df_all.drop(['thekeys_similarity_tuple'],axis=1)
-print 'thekeys similarity time:',round((time()-t2)/60,1) ,'minutes\n'
+print( 'thekeys similarity time:',round((time()-t2)/60,1) ,'minutes\n')
 t2 = time()
 
 ##############
@@ -993,7 +993,7 @@ my_dict={}
 for i in range(0,len(aa)):
     my_dict[aa[i]]=find_similarity(aa[i].split("\t")[0],aa[i].split("\t")[1],nouns=False)
     if (i % 5000)==0:
-        print ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes"
+        print( ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes")
     
 df_all['beforethekeys_similarity_tuple']=df_all['key_for_dict'].map(lambda x: my_dict[x] )
 df_all['beforethekeys_pathsimilarity_max'] = df_all['beforethekeys_similarity_tuple'].map(lambda x: x[0])
@@ -1003,7 +1003,7 @@ df_all['beforethekeys_lchsimilarity_mean'] = df_all['beforethekeys_similarity_tu
 df_all['beforethekeys_ressimilarity_max'] = df_all['beforethekeys_similarity_tuple'].map(lambda x: x[4])
 df_all['beforethekeys_ressimilarity_mean'] = df_all['beforethekeys_similarity_tuple'].map(lambda x: x[5])
 df_all=df_all.drop(['beforethekeys_similarity_tuple'],axis=1)
-print 'beforethekeys similarity time:',round((time()-t2)/60,1) ,'minutes\n'
+print( 'beforethekeys similarity time:',round((time()-t2)/60,1) ,'minutes\n')
 t2 = time()
 
 
@@ -1015,7 +1015,7 @@ my_dict={}
 for i in range(0,len(aa)):
     my_dict[aa[i]]=find_similarity(aa[i].split("\t")[0],aa[i].split("\t")[1],nouns=False)
     if (i % 5000)==0:
-        print ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes"
+        print( ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes")
 df_all['thekey_beforethekey_similarity_tuple']=df_all['key_for_dict'].map(lambda x: my_dict[x] )
 df_all['thekey_beforethekey_pathsimilarity_max'] = df_all['thekey_beforethekey_similarity_tuple'].map(lambda x: x[0])
 df_all['thekey_beforethekey_pathsimilarity_mean'] = df_all['thekey_beforethekey_similarity_tuple'].map(lambda x: x[1])
@@ -1024,7 +1024,7 @@ df_all['thekey_beforethekey_lchsimilarity_mean'] = df_all['thekey_beforethekey_s
 df_all['thekey_beforethekey_ressimilarity_max'] = df_all['thekey_beforethekey_similarity_tuple'].map(lambda x: x[4])
 df_all['thekey_beforethekey_ressimilarity_mean'] = df_all['thekey_beforethekey_similarity_tuple'].map(lambda x: x[5])
 df_all=df_all.drop(['thekey_beforethekey_similarity_tuple'],axis=1)
-print 'thekey_beforethekey similarity time:',round((time()-t2)/60,1) ,'minutes\n'
+print( 'thekey_beforethekey similarity time:',round((time()-t2)/60,1) ,'minutes\n')
 t2 = time()
 
 
@@ -1034,7 +1034,7 @@ my_dict={}
 for i in range(0,len(aa)):
     my_dict[aa[i]]=find_similarity(aa[i].split("\t")[0],aa[i].split("\t")[1],nouns=False)
     if (i % 5000)==0:
-        print ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes"
+        print( ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes")
 df_all['thekey_before2thekey_similarity_tuple']=df_all['key_for_dict'].map(lambda x: my_dict[x] )
 df_all['thekey_before2thekey_pathsimilarity_max'] = df_all['thekey_before2thekey_similarity_tuple'].map(lambda x: x[0])
 df_all['thekey_before2thekey_pathsimilarity_mean'] = df_all['thekey_before2thekey_similarity_tuple'].map(lambda x: x[1])
@@ -1043,7 +1043,7 @@ df_all['thekey_before2thekey_lchsimilarity_mean'] = df_all['thekey_before2thekey
 df_all['thekey_before2thekey_ressimilarity_max'] = df_all['thekey_before2thekey_similarity_tuple'].map(lambda x: x[4])
 df_all['thekey_before2thekey_ressimilarity_mean'] = df_all['thekey_before2thekey_similarity_tuple'].map(lambda x: x[5])
 df_all=df_all.drop(['thekey_before2thekey_similarity_tuple'],axis=1)
-print 'thekey_before2thekey similarity time:',round((time()-t2)/60,1) ,'minutes\n'
+print( 'thekey_before2thekey similarity time:',round((time()-t2)/60,1) ,'minutes\n')
 t2 = time()
 
 for var_name in ['pathsimilarity_max','pathsimilarity_mean','lchsimilarity_max','lchsimilarity_mean',
@@ -1059,7 +1059,7 @@ my_dict={}
 for i in range(0,len(aa)):
     my_dict[aa[i]]=find_similarity(aa[i].split("\t")[0],aa[i].split("\t")[1],nouns=False)
     if (i % 5000)==0:
-        print ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes"
+        print( ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes")
     
 df_all['beforethekey_thekey_similarity_tuple']=df_all['key_for_dict'].map(lambda x: my_dict[x] )
 df_all['beforethekey_thekey_pathsimilarity_max'] = df_all['beforethekey_thekey_similarity_tuple'].map(lambda x: x[0])
@@ -1069,7 +1069,7 @@ df_all['beforethekey_thekey_lchsimilarity_mean'] = df_all['beforethekey_thekey_s
 df_all['beforethekey_thekey_ressimilarity_max'] = df_all['beforethekey_thekey_similarity_tuple'].map(lambda x: x[4])
 df_all['beforethekey_thekey_ressimilarity_mean'] = df_all['beforethekey_thekey_similarity_tuple'].map(lambda x: x[5])
 df_all=df_all.drop(['beforethekey_thekey_similarity_tuple'],axis=1)
-print 'beforethekey_thekey similarity time:',round((time()-t2)/60,1) ,'minutes\n'
+print( 'beforethekey_thekey similarity time:',round((time()-t2)/60,1) ,'minutes\n')
 t2 = time()
 
 
@@ -1079,7 +1079,7 @@ my_dict={}
 for i in range(0,len(aa)):
     my_dict[aa[i]]=find_similarity(aa[i].split("\t")[0],aa[i].split("\t")[1],nouns=False)
     if (i % 5000)==0:
-        print ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes"
+        print( ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes")
     
 df_all['before2thekey_thekey_similarity_tuple']=df_all['key_for_dict'].map(lambda x: my_dict[x] )
 df_all['before2thekey_thekey_pathsimilarity_max'] = df_all['before2thekey_thekey_similarity_tuple'].map(lambda x: x[0])
@@ -1089,7 +1089,7 @@ df_all['before2thekey_thekey_lchsimilarity_mean'] = df_all['before2thekey_thekey
 df_all['before2thekey_thekey_ressimilarity_max'] = df_all['before2thekey_thekey_similarity_tuple'].map(lambda x: x[4])
 df_all['before2thekey_thekey_ressimilarity_mean'] = df_all['before2thekey_thekey_similarity_tuple'].map(lambda x: x[5])
 df_all=df_all.drop(['before2thekey_thekey_similarity_tuple'],axis=1)
-print 'before2thekey_thekey similarity time:',round((time()-t2)/60,1) ,'minutes\n'
+print( 'before2thekey_thekey similarity time:',round((time()-t2)/60,1) ,'minutes\n')
 t2 = time()
 
 for var_name in ['pathsimilarity_max','pathsimilarity_mean','lchsimilarity_max','lchsimilarity_mean',
@@ -1105,7 +1105,7 @@ my_dict={}
 for i in range(0,len(aa)):
     my_dict[aa[i]]=find_similarity(aa[i].split("\t")[0],aa[i].split("\t")[1],nouns=False)
     if (i % 5000)==0:
-        print ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes"
+        print( ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes")
     
 df_all['query_similarity_tuple']=df_all['key_for_dict'].map(lambda x: my_dict[x] )
 df_all['query_pathsimilarity_max'] = df_all['query_similarity_tuple'].map(lambda x: x[0])
@@ -1115,7 +1115,7 @@ df_all['query_lchsimilarity_mean'] = df_all['query_similarity_tuple'].map(lambda
 df_all['query_ressimilarity_max'] = df_all['query_similarity_tuple'].map(lambda x: x[4])
 df_all['query_ressimilarity_mean'] = df_all['query_similarity_tuple'].map(lambda x: x[5])
 df_all=df_all.drop(['query_similarity_tuple'],axis=1)
-print 'query similarity time:',round((time()-t2)/60,1) ,'minutes\n'
+print( 'query similarity time:',round((time()-t2)/60,1) ,'minutes\n')
 t2 = time()
 
 
@@ -1126,7 +1126,7 @@ my_dict={}
 for i in range(0,len(aa)):
     my_dict[aa[i]]=find_similarity(aa[i].split("\t")[0],aa[i].split("\t")[1],nouns=False)
     if (i % 5000)==0:
-        print ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes"
+        print( ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes")
     
 df_all['title_similarity_tuple']=df_all['key_for_dict'].map(lambda x: my_dict[x] )
 df_all['title_pathsimilarity_max'] = df_all['title_similarity_tuple'].map(lambda x: x[0])
@@ -1136,7 +1136,7 @@ df_all['title_lchsimilarity_mean'] = df_all['title_similarity_tuple'].map(lambda
 df_all['title_ressimilarity_max'] = df_all['title_similarity_tuple'].map(lambda x: x[4])
 df_all['title_ressimilarity_mean'] = df_all['title_similarity_tuple'].map(lambda x: x[5])
 df_all=df_all.drop(['title_similarity_tuple'],axis=1)
-print 'title similarity time:',round((time()-t2)/60,1) ,'minutes\n'
+print( 'title similarity time:',round((time()-t2)/60,1) ,'minutes\n')
 t2 = time()
 
 ##############
@@ -1146,7 +1146,7 @@ my_dict={}
 for i in range(0,len(aa)):
     my_dict[aa[i]]=find_similarity(aa[i].split("\t")[0],aa[i].split("\t")[1],nouns=False)
     if (i % 5000)==0:
-        print ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes"
+        print( ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes")
     
 df_all['before2thekey_beforethekey_similarity_tuple']=df_all['key_for_dict'].map(lambda x: my_dict[x] )
 df_all['before2thekey_beforethekey_pathsimilarity_max'] = df_all['before2thekey_beforethekey_similarity_tuple'].map(lambda x: x[0])
@@ -1156,7 +1156,7 @@ df_all['before2thekey_beforethekey_lchsimilarity_mean'] = df_all['before2thekey_
 df_all['before2thekey_beforethekey_ressimilarity_max'] = df_all['before2thekey_beforethekey_similarity_tuple'].map(lambda x: x[4])
 df_all['before2thekey_beforethekey_ressimilarity_mean'] = df_all['before2thekey_beforethekey_similarity_tuple'].map(lambda x: x[5])
 df_all=df_all.drop(['before2thekey_beforethekey_similarity_tuple'],axis=1)
-print 'before2thekey_beforethekey similarity time:',round((time()-t2)/60,1) ,'minutes\n'
+print( 'before2thekey_beforethekey similarity time:',round((time()-t2)/60,1) ,'minutes\n')
 t2 = time()
 
 
@@ -1167,7 +1167,7 @@ my_dict={}
 for i in range(0,len(aa)):
     my_dict[aa[i]]=find_similarity(aa[i].split("\t")[0],aa[i].split("\t")[1],nouns=False)
     if (i % 5000)==0:
-        print ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes"
+        print( ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes")
     
 df_all['beforethekey_before2thekey_similarity_tuple']=df_all['key_for_dict'].map(lambda x: my_dict[x] )
 df_all['beforethekey_before2thekey_pathsimilarity_max'] = df_all['beforethekey_before2thekey_similarity_tuple'].map(lambda x: x[0])
@@ -1177,12 +1177,12 @@ df_all['beforethekey_before2thekey_lchsimilarity_mean'] = df_all['beforethekey_b
 df_all['beforethekey_before2thekey_ressimilarity_max'] = df_all['beforethekey_before2thekey_similarity_tuple'].map(lambda x: x[4])
 df_all['beforethekey_before2thekey_ressimilarity_mean'] = df_all['beforethekey_before2thekey_similarity_tuple'].map(lambda x: x[5])
 df_all=df_all.drop(['beforethekey_before2thekey_similarity_tuple'],axis=1)
-print 'beforethekey_before2thekey similarity time:',round((time()-t2)/60,1) ,'minutes\n'
+print( 'beforethekey_before2thekey similarity time:',round((time()-t2)/60,1) ,'minutes\n')
 t2 = time()
 
 df_all=df_all.drop(['key_for_dict'],axis=1)
 
-print 'process key words time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'process key words time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -1222,7 +1222,7 @@ df_all['seqmatch_desc&bullets_ratio'] = df_all['seqmatch_desc&bullets_tuple'].ma
 df_all['seqmatch_desc&bullets_ratioscaled'] = df_all['seqmatch_desc&bullets_tuple'].map(lambda x: x[1])
 df_all=df_all.drop(['seqmatch_desc&bullets_tuple'],axis=1)
 
-print 'sequence match time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'sequence match time:',round((time()-t0)/60,1) ,'minutes\n')
 
 
 
@@ -1293,7 +1293,7 @@ df_all['tfidf_title_querybeforethekey_let']=tfidf_title_querybeforethekey.tocsr(
 
 
 
-print 'tfidf basic features time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'tfidf basic features time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 df_all['tfidf_nn_important_in_title_num']=vectorizer_title.transform(df_all['search_term_tokens'].map(lambda x:nn_important_words(x)) ).tocsr().dot(uno_title)
@@ -1330,7 +1330,7 @@ df_all['tfidf_jj_rb_in_bullets_let']=vectorizer_bullets.transform(df_all['search
 df_all=df_all.drop(['word_in_title_string','word_in_title_string_only_string','word_in_description_string',\
 'word_in_description_string_only_string','word_in_bullets_string','word_in_bullets_string_only_string'],axis=1)
 
-print 'tfidf advanced features time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'tfidf advanced features time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -1414,7 +1414,7 @@ for i in range(0,len(set(list(df_all['product_title_keys_stemmed'])))):
     my_dict[aa[i]]=i
 df_all['uniq_product_title_keys']=df_all['product_title_keys_stemmed'].map(lambda x: my_dict[x])
 
-print 'new unique features time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'new unique features time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 df_all['text']=df_all['search_term_keys_stemmed'].map(lambda x: str(x))+"_"+df_all['product_title_keys_stemmed'].map(lambda x: str(x))
@@ -1470,7 +1470,7 @@ for i in range(0,len(set(list(df_all['brand_parsed'])))):
     my_dict[aa[i]]=i
 df_all['uniq_brand']=df_all['brand_parsed'].map(lambda x: 10000+my_dict[x])
 
-print 'create unique... variables time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'create unique... variables time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 df_all=df_all.drop(['product_info'],axis=1)
@@ -1514,9 +1514,9 @@ for i in range(0,len(aa)):
     similarity_dict[aa[i]]={"cnt": cnt, 'words':sorted(zip(vocabulary,freqs),key=lambda x: x[1],reverse=True)[0:30]}
 
     if (i % 2000)==0:
-        print ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes"
+        print( ""+str(i)+" out of "+str(len(aa))+" unique combinations; "+str(round((time()-t2)/60,1))+" minutes")
 
-print 'create similarity dict time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'create similarity dict time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 ### check the next var for potential overfit
@@ -1577,7 +1577,7 @@ my_dict={}
 for i in range(0,len(aa)):
     my_dict[aa[i]]=df_all['description_similarity_20'][df_all['search_term_beforethekey_thekey_stemmed']==aa[i]]
     if i % 200==0:
-        print i, "out of", len(aa), ";", round((time()-t0)/60,1) ,'minutes'
+        print( i, "out of", len(aa), ";", round((time()-t0)/60,1) ,'minutes')
 
 
 def get_percentile_similarity(similarity20, str_thekey_pair, dict_item):   
@@ -1602,7 +1602,7 @@ df_all=df_all.drop(['above15_dummy_frequency_of_beforethekey_thekey','descriptio
 
 
 
-print 'create description similarity variables time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'create description similarity variables time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 df_all=df_all.drop(['description_similarity_tuple'],axis=1)
@@ -1611,7 +1611,7 @@ df_all=df_all.drop(['search_term_beforethekey_thekey_stemmed'],axis=1)
 
 
 df_all.drop(string_variables_list,axis=1).to_csv(FEATURES_DIR+"/df_basic_features.csv", index=False)
-print 'save file time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'save file time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()  
 
 
@@ -1657,7 +1657,7 @@ for brand in brand_dict.keys():
         df_all["BRANDdummyinquery_"+brand.replace(" ","")]=\
             col_create_brandmaterial_dummy(df_all['brands_in_search_term'],brand)
     if cnt % 200==0:
-        print cnt,"brands processed;", cnt1, "dummies created"
+        print( cnt,"brands processed;", cnt1, "dummies created")
 
 cnt=0
 cnt1=0            
@@ -1672,16 +1672,16 @@ for material in material_dict.keys():
         df_all["MATERIALdummyinquery_"+material.replace(" ","")]=\
             col_create_brandmaterial_dummy(df_all['materials_in_search_term'],material)
     if cnt % 200==0:
-        print cnt,"materials processed;", cnt1, "dummies created"    
+        print( cnt,"materials processed;", cnt1, "dummies created"    )
     
 
-print 'create brand and material dummies time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'create brand and material dummies time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()        
 
 
 
 df_all.drop(string_variables_list,axis=1).to_csv(FEATURES_DIR+"/df_brand_material_dummies.csv", index=False)
-print 'save file time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'save file time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()  
 
 
@@ -1702,7 +1702,7 @@ for tpl in sorted(freqs,key=lambda x: x[1],reverse=True):
         cnt+=1
         title_keys.append(tpl[0])
         df_all["THEKEYdummyintitle_"+tpl[0]]=df_all['product_title_thekey_stemmed'].map(lambda x: int(x==tpl[0]))
-print cnt, "product_title thekey dummies created"
+print( cnt, "product_title thekey dummies created")
 
         
 lst=list(df_all['search_term_thekey_stemmed'])
@@ -1714,7 +1714,7 @@ for tpl in sorted(freqs,key=lambda x: x[1],reverse=True):
         cnt+=1
         query_keys.append(tpl[0])
         df_all["THEKEYdummyinquery_"+tpl[0]]=df_all['search_term_thekey_stemmed'].map(lambda x: int(x==tpl[0]))
-print cnt, "search_term thekey dummies created"
+print( cnt, "search_term thekey dummies created")
 
 BEFORETHEKEYTHEKEY_THRESHOLD=300
 lst=list(df_all['product_title_beforethekey_stemmed']+"_"+df_all['product_title_thekey_stemmed'])
@@ -1724,7 +1724,7 @@ for tpl in sorted(freqs,key=lambda x: x[1],reverse=True):
     if tpl[1]>BEFORETHEKEYTHEKEY_THRESHOLD:
         cnt+=1
         df_all["BTK_TKdummyintitle_"+tpl[0]]=(df_all['product_title_beforethekey_stemmed']+"_"+df_all['product_title_thekey_stemmed']).map(lambda x: int(x==tpl[0]))
-print cnt, "product_title beforethekey_thekey dummies created"   
+print( cnt, "product_title beforethekey_thekey dummies created"  )
 
 lst=list(df_all['search_term_beforethekey_stemmed']+"_"+df_all['search_term_thekey_stemmed'])
 freqs=[(w,lst.count(w)) for w in set(lst)]
@@ -1733,18 +1733,18 @@ for tpl in sorted(freqs,key=lambda x: x[1],reverse=True):
     if tpl[1]>BEFORETHEKEYTHEKEY_THRESHOLD:
         cnt+=1
         df_all["BTK_TKdummyinquery_"+tpl[0]]=(df_all['search_term_beforethekey_stemmed']+"_"+df_all['search_term_thekey_stemmed']).map(lambda x: int(x==tpl[0]))
-print cnt, "search_term beforethekey_thekey dummies created"
+print( cnt, "search_term beforethekey_thekey dummies created")
 
 
-print 'create thekeys dummies time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'create thekeys dummies time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()        
        
        
 df_all.drop(string_variables_list,axis=1).to_csv(FEATURES_DIR+"/df_thekey_dummies.csv", index=False)
-print 'save file time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'save file time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()         
        
-print 'TOTAL FEATURE EXTRACTION TIME:',round((time()-t1)/60,1) ,'minutes\n'
+print( 'TOTAL FEATURE EXTRACTION TIME:',round((time()-t1)/60,1) ,'minutes\n')
     
 
 

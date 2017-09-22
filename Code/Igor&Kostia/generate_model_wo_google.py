@@ -11,7 +11,7 @@ Author: Igor Buinyi
 Team: Turing test
 """
 
-from config_IgorKostia import *
+from .config_IgorKostia import *
 
 import numpy as np
 import pandas as pd
@@ -73,14 +73,14 @@ drop_list+=['description_similarity_10',	'description_similarity_11-20',	'descri
             'word_in_title_string_only_num',	'word_in_title_string_only_sum',	'word_in_title_string_only_let']
 
 
-print len(df_all.keys())
+print( len(df_all.keys()))
 new_drop_list=[]
 for var in drop_list:
     if var in df_all.keys():
         new_drop_list.append(var)
 
 df_all=df_all.drop(new_drop_list,axis=1)
-print len(df_all.keys())
+print( len(df_all.keys()))
 
 df_importance = pd.read_csv(MODELS_DIR+'/feature_importances_benchmark_without_dummies.csv', encoding="utf-8")
 df_importance=df_importance.sort_values(['importance'],ascending=[0])
@@ -106,7 +106,7 @@ for cnt in range(1,len(list(df_importance['name'][df_importance['cumulative']<im
     if max_abs_corr< variance_THRESHOLD:
         new_var_list.append(var)
     if cnt % 10 ==0:
-        print cnt, len(new_var_list)
+        print( cnt, len(new_var_list))
 
 
 df_importance_dummy = pd.read_csv(MODELS_DIR+'/feature_importances_benchmark_top40_and_dummies.csv', encoding="utf-8")
@@ -124,18 +124,18 @@ new_dummy_list=list(df_importance_dummy['name'][df_importance_dummy.apply(lambda
     and x['name'][0]!=x['name'][0].lower(),axis=1)])
     
 
-print len(important_var_list), len(new_var_list)
-print len(important_dummy_list), len(new_dummy_list)
+print( len(important_var_list), len(new_var_list))
+print( len(important_dummy_list), len(new_dummy_list))
 
 
 important_vars=['id','relevance','id_dummy','above15_dummy_frequency_of_beforethekey_thekey','description20_percentile']+important_var_list+important_dummy_list
 selected_vars=['id','relevance','id_dummy','above15_dummy_frequency_of_beforethekey_thekey','description20_percentile']+new_var_list+new_dummy_list
 
-print len(important_vars)
-print len(selected_vars)
+print( len(important_vars))
+print( len(selected_vars))
 
 all_vars= list(df_all.keys())
-print len(all_vars)
+print( len(all_vars))
 
 
 
@@ -197,8 +197,8 @@ skf = list(StratifiedKFold(y_train, n_folds=3, shuffle=True,random_state=2016)) 
 
 
 for clf, feature_list, name_str in clf_list:
-    print clf
-    print 'Model', name_str
+    print( clf)
+    print( 'Model', name_str)
     if "SVR" in name_str:
         X_matrix = preprocessing.scale(df_all[feature_list].drop(['id','relevance'],axis=1),axis=0)
     else:
@@ -207,7 +207,7 @@ for clf, feature_list, name_str in clf_list:
     X_train = X_matrix[:num_train]
     X_test = X_matrix[num_train:]
 
-    print '\tStep 0: Cross validation'
+    print( '\tStep 0: Cross validation')
     cv_label_pred_stacked=[]
     cv_indices_stacked=[]
     cv_labels_stacked=[]
@@ -239,23 +239,23 @@ for clf, feature_list, name_str in clf_list:
         
         RMSE = mean_squared_error(cv_labels_test, cv_label_pred)**0.5
         total_RMSE += RMSE
-        print '\t\tFold [%s] [RMSE: %s] [%s minutes]' % (i,round(RMSE,6), round((time()-t0)/60,1))
+        print( '\t\tFold [%s] [RMSE: %s] [%s minutes]' % (i,round(RMSE,6), round((time()-t0)/60,1)))
     
     pd.DataFrame({"id": id_train[cv_indices_stacked], "predicted": cv_label_pred_stacked, \
         "actual": cv_labels_stacked}).to_csv(MODELSENSEMBLE_DIR+'/trainvalidation_'+name_str+'_2015-04-23.csv',index=False)
-    print '\tTrain validation file saved [RMSE: %s]' % (round(total_RMSE/len(skf),6))
+    print( '\tTrain validation file saved [RMSE: %s]' % (round(total_RMSE/len(skf),6)))
     
     """
     generate predictions for test
     """
-    print '\tStep 1: Predict test labels'
+    print( '\tStep 1: Predict test labels')
     clf.fit(X_train, y_train)
     y_pred = clf.predict(X_test)
     
     pd.DataFrame({"id": id_test, "relevance": y_pred}).to_csv(MODELSENSEMBLE_DIR+'/testprediction_'+name_str+'_2015-04-23.csv',index=False)
-    print '\tTest prediction file saved [%s minutes]\n'  % (round((time()-t0)/60,1))
+    print( '\tTest prediction file saved [%s minutes]\n'  % (round((time()-t0)/60,1)))
     
-print 'Total time %s minutes' % (round((time()-t00)/60,1))
+print( 'Total time %s minutes' % (round((time()-t00)/60,1)))
                 
             
             

@@ -6,7 +6,7 @@ Author: Kostia Omelianchuk
 Team: Turing test
 """
 
-from config_IgorKostia import *
+from .config_IgorKostia import *
 
 import numpy as np
 import pandas as pd
@@ -40,7 +40,7 @@ for var in df_all.keys():
 
 p = df_all.keys()
 for i in range(len(p)):
-    print p[i]
+    print( p[i])
 
 def replace_nan(s):
         if pd.isnull(s)==True:
@@ -91,13 +91,13 @@ def dld(s1, s2):
     d = {}
     lenstr1 = len(s1)
     lenstr2 = len(s2)
-    for i in xrange(-1,lenstr1+1):
+    for i in range(-1,lenstr1+1):
         d[(i,-1)] = i+1
-    for j in xrange(-1,lenstr2+1):
+    for j in range(-1,lenstr2+1):
         d[(-1,j)] = j+1
  
-    for i in xrange(lenstr1):
-        for j in xrange(lenstr2):
+    for i in range(lenstr1):
+        for j in range(lenstr2):
             if s1[i] == s2[j]:
                 cost = 0
             else:
@@ -141,7 +141,7 @@ def str_2common_words_dld(str1, str2):
         found_string_only=0
         words_in_query=str1.split()
         words_in_text=str2.split()
-        #print words_in_query
+        #print( words_in_query
         for cnt in range(0,len(words_in_query)-1):
             two_words='_'+words_in_query[cnt]+' '+words_in_query[cnt+1]+' '
             if len(words_in_query[cnt])>1 and len(words_in_query[cnt+1])>1:
@@ -160,7 +160,7 @@ def str_2common_words_string_only_dld(str1, str2):
         found_string_only=0
         words_in_query=str1.split()
         words_in_text=str2.split()
-        #print words_in_query
+        #print( words_in_query
         for cnt in range(0,len(words_in_query)-1):
             two_words='_'+words_in_query[cnt]+' '+words_in_query[cnt+1]+' '
             if len(words_in_query[cnt])>1 and len(words_in_query[cnt+1])>1 and len(re.findall(r'\d+', two_words))==0:
@@ -204,22 +204,22 @@ for i in range(0,5):
     t0 = time()
     df_all['1word_dld_in_'+(first_list[i])] = df_all['product_info'].map(lambda x:str_common_word_dld(x.split('\t')[0],x.split('\t')[first_num[i]]))
     df_all['1word_dld_in_'+(second_list[i])] = df_all['product_info'].map(lambda x:str_common_word_dld(x.split('\t')[1],x.split('\t')[second_num[i]]))
-    print '1word_dld time:',round(time()-t0,3) ,'s\n'
+    print( '1word_dld time:',round(time()-t0,3) ,'s\n')
     
     t0 = time()
     df_all['1word_string_dld_in_'+(first_list[i])] = df_all['product_info'].map(lambda x:str_common_word_string_only_dld(x.split('\t')[0],x.split('\t')[first_num[i]]))
     df_all['1word_string_dld_in_'+(second_list[i])] = df_all['product_info'].map(lambda x:str_common_word_string_only_dld(x.split('\t')[1],x.split('\t')[second_num[i]]))
-    print '1word_string_dld time:',round(time()-t0,3) ,'s\n'
+    print( '1word_string_dld time:',round(time()-t0,3) ,'s\n')
 
     t0 = time()
     df_all['2word_dld_in_'+(first_list[i])] = df_all['product_info'].map(lambda x:str_2common_words_dld(x.split('\t')[0],x.split('\t')[first_num[i]]))
     df_all['2word_dld_in_'+(second_list[i])] = df_all['product_info'].map(lambda x:str_2common_words_dld(x.split('\t')[1],x.split('\t')[second_num[i]]))
-    print '2word_dld time:',round(time()-t0,3) ,'s\n'
+    print( '2word_dld time:',round(time()-t0,3) ,'s\n')
 
     t0 = time()
     df_all['2word_string_dld_in_'+(first_list[i])] = df_all['product_info'].map(lambda x:str_2common_words_string_only_dld(x.split('\t')[0],x.split('\t')[first_num[i]]))
     df_all['2word_string_dld_in_'+(second_list[i])] = df_all['product_info'].map(lambda x:str_2common_words_string_only_dld(x.split('\t')[1],x.split('\t')[second_num[i]]))
-    print '2word_string_dld time:',round(time()-t0,3) ,'s\n'    
+    print( '2word_string_dld time:',round(time()-t0,3) ,'s\n'  )
 
 
 #save result

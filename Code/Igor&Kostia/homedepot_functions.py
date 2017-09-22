@@ -73,7 +73,7 @@ def get_attribute_dict(list_of_attributes,str_query,str_sometext="",search_in_te
             attributes_dict[attribute]['cnt_text']=len(re.findall(r'\b'+attribute+r'\b',str_sometext))
         attributes_dict[attribute]['cnt_query']=len(re.findall(r'\b'+attribute+r'\b',str_query))
         if (cnt % 500)==0:
-            print ""+str(cnt)+" out of "+str(len(list_of_uniq_attributes))+" unique attributes",round((time()-t2)/60,1) ,'minutes'
+            print( ""+str(cnt)+" out of "+str(len(list_of_uniq_attributes))+" unique attributes",round((time()-t2)/60,1) ,'minutes')
     return attributes_dict
 
 
@@ -551,7 +551,7 @@ def col_parser(clmn, automatic_spell_check_dict={}, remove_from_brackets=False,p
         my_dict[aa[i]]=str_parser(aa[i],automatic_spell_check_dict=automatic_spell_check_dict, remove_from_brackets=remove_from_brackets,\
                                     parse_material=parse_material,add_space_stop_list=add_space_stop_list)
         if (i % 10000)==0:
-            print "parsed "+str(i)+" out of "+str(len(aa))+" unique values; "+str(round((time()-t0)/60,1))+" minutes"
+            print( "parsed "+str(i)+" out of "+str(len(aa))+" unique values; "+str(round((time()-t0)/60,1))+" minutes")
     return clmn.map(lambda x: my_dict[x])
     
 
@@ -919,10 +919,10 @@ def col_tagger(colmn_parsed):
                 colmn_tokens[list_of_keys[k]].append(tokens_batch[pos])
             pos+=1
             #if (pos % 100000)==0:
-            #    print ""+str(pos)+" out of "+str(len(tokens_all))+" tokens"
+            #    print( ""+str(pos)+" out of "+str(len(tokens_all))+" tokens"
             
         i+=batch
-        print "tagged "+str(min(i,NN))+" out of "+str(NN)+" total rows; "+str(round((time()-t0)/60,1))+" minutes"
+        print( "tagged "+str(min(i,NN))+" out of "+str(NN)+" total rows; "+str(round((time()-t0)/60,1))+" minutes")
     return colmn_tokens
  
 
@@ -962,8 +962,8 @@ def col_wordtagger(colmn_parsed):
                     colmn_tokens[list_of_keys[k]].append(tokens_batch[pos])
             pos+=1
             #if (pos % 100000)==0:
-            #    print ""+str(pos)+" out of "+str(len(tokens_all))+" tokens"
+            #    print( ""+str(pos)+" out of "+str(len(tokens_all))+" tokens"
             
         i+=batch
-        print "wordtagged "+str(min(i,NN))+" out of "+str(NN)+" total rows; "+str(round((time()-t0)/60,1))+" minutes"
+        print( "wordtagged "+str(min(i,NN))+" out of "+str(NN)+" total rows; "+str(round((time()-t0)/60,1))+" minutes")
     return colmn_tokens

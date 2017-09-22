@@ -31,7 +31,7 @@ df_all = df_all2
 
 p = df_all.keys()
 for i in range(len(p)):
-    print p[i]
+    print( p[i])
 
 for var in df_all.keys():
     df_all[var]=df_all[var].fillna("")
@@ -97,24 +97,24 @@ def dld_replacer(s1):
            for i1 in range(len(s)):
                words2 = s[i1].split(" ")
                for j1 in range(len(words2)): 
-                  # print i,j,i1,j1,len(s)
+                  # print( i,j,i1,j1,len(s)
                    if dld(words[j], words2[j1])<min(3,max(len(words2[j1])-3,1)):
                        allwords.append(words2[j1])
                        words2[j1]=words[j]
                        uwords.append(words[j])
                        
                d=""
-               #print d
+               #print( d
                for t in range(len(words2)):
                    d=d+words2[t]+" "
-                   #print d               
-              # print d
+                   #print( d               
+              # print( d
                d=d[0:len(d)-1]
                s[i1]=d    
            d=""        
            for t1 in range(len(words)):
                    d=d+words[t1]+" "
-           #print d
+           #print( d
            d=d[0:len(d)-1]
            s[i]=d
     allwords = list(set(allwords))      
@@ -187,7 +187,7 @@ for i in  range(len(st_lu)) :
     t_length1.append(tmp3)
     
     if (i%1000)==0:
-        print i
+        print( i)
 
 
 st = df_all["search_term_stemmed"]
@@ -201,7 +201,7 @@ for i in range(len(st_lu)):
     another_t[i] = list(pt[st==st_lu[i]])
     t[i]= list(pd[st==st_lu[i]])
     if (i%1000)==0:
-        print i
+        print( i)
 
 
 list1=list()
@@ -242,7 +242,7 @@ for i in range(len(df_all)):
     f11=(len(list(set(list(st_lu[j].split(" "))))) +0.0)/t_length[j]
     f12=len(list(set(list(st_lu[j].split(" "))))) /((d_length[j]+0.0)/len(idf_list[j]))
     if (i%1000)==0:
-        print i
+        print( i)
 
     list1.append(f1)
     list2.append(f2)
@@ -310,7 +310,7 @@ for i in range(len(df_all)):
     f11=(len(list(set(list(st_lu[j].split(" "))))) +0.0)/t_length[j]
     f12=len(list(set(list(st_lu[j].split(" "))))) /((d_length[j]+0.0)/len(idf_list[j]))
     if (i%1000)==0:
-        print i
+        print( i)
 
     list1.append(f1)
     list2.append(f2)
@@ -327,8 +327,8 @@ for i in range(len(df_all)):
 
 
 for j in range(12):    
-    df_all["st_tfidf_"+str(j)"+".1"]=list_of_list[j]
-    st_names.append("st_tfidf_"+str(j)"+".1")
+    df_all["st_tfidf_"+str(j) +".1"]=list_of_list[j]
+    st_names.append("st_tfidf_"+str(j) +".1")
 
 #save features
 b=df_all[st_names]

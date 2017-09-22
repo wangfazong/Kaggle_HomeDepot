@@ -6,7 +6,7 @@ Author: Kostia Omelianchuk
 Team: Turing test
 """
 
-from config_IgorKostia import *
+from .config_IgorKostia import *
 
 
 import os
@@ -144,17 +144,17 @@ def run(X,Y,X2,bclf,n_model):
     blend_train = np.zeros((X_dev.shape[0], len(clfs))) # Number of training data x Number of classifiers
     blend_test = np.zeros((X_test.shape[0], len(clfs))) # Number of testing data x Number of classifiers
      
-    print 'X_test.shape = %s' % (str(X_test.shape))
-    print 'blend_train.shape = %s' % (str(blend_train.shape))
-    print 'blend_test.shape = %s' % (str(blend_test.shape))
+    print( 'X_test.shape = %s' % (str(X_test.shape)))
+    print( 'blend_train.shape = %s' % (str(blend_train.shape)))
+    print( 'blend_test.shape = %s' % (str(blend_test.shape)))
     
     # For each classifier, we train the number of fold times (=len(skf))
     for j, clf in enumerate(clfs):
-        print 'Training classifier [%s]' % (clf) 
-        print 'Training classifier [%s]' % ((j+1.0)/len(clfs))
+        print( 'Training classifier [%s]' % (clf) )
+        print( 'Training classifier [%s]' % ((j+1.0)/len(clfs)))
         t0=time()
         for i, (train_index, cv_index) in enumerate(skf):
-            print 'Fold [%s]' % (i)
+            print( 'Fold [%s]' % (i))
             
             # This is the training and validation set
             X_train = X_dev[train_index]
@@ -167,17 +167,17 @@ def run(X,Y,X2,bclf,n_model):
             # This output will be the basis for our blended classifier to train against,
             # which is also the output of our classifiers
             blend_train[cv_index, j] = clf.predict(X_cv)
-            print sqrt(metrics.mean_squared_error(Y_cv, blend_train[cv_index, j]))
-        print sqrt(metrics.mean_squared_error(Y_dev, blend_train[:,j]))
+            print( sqrt(metrics.mean_squared_error(Y_cv, blend_train[cv_index, j])))
+        print( sqrt(metrics.mean_squared_error(Y_dev, blend_train[:,j])))
         
         clf.fit(X_dev, Y_dev)
         blend_test[:, j]=clf.predict(X_test)
-        print 'train time:',round(time()-t0,3) ,'s\n'
-    print 'Y_dev.shape = %s' % (Y_dev.shape)
+        print( 'train time:',round(time()-t0,3) ,'s\n')
+    print( 'Y_dev.shape = %s' % (Y_dev.shape))
     
     bclf.fit(blend_train, Y_dev)
     Y_test_predict = bclf.predict(blend_test)
-    print 'all time:',round(time()-t00,3) ,'s\n'
+    print( 'all time:',round(time()-t00,3) ,'s\n')
     
     return Y_test_predict, blend_test, blend_train, Y_dev
 
@@ -221,7 +221,7 @@ for feature_set in feature_list:
     X2 = X[num_train:]
 
 
-    print iteration
+    print( iteration)
     bclf=LinearRegression()
     pred, bx_test, bx_train, by_train = run(X1,Y1, X2,bclf, model_list[iteration])
     pd.DataFrame(bx_train).to_csv(MODELS_DIR+"/train_"+str(name_list[iteration])+".csv",index=False) 

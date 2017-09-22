@@ -15,7 +15,7 @@ Author: Igor Buinyi
 Team: Turing test
 """
 
-from config_IgorKostia import *
+from .config_IgorKostia import *
 
 import numpy as np
 import pandas as pd
@@ -35,8 +35,8 @@ stoplist_wo_can=stoplist[:]
 stoplist_wo_can.remove('can')
 
 
-from homedepot_functions import *
-from google_dict import *
+from .homedepot_functions import *
+from .google_dict import *
 
 t0 = time()
 t1 = time()
@@ -54,7 +54,7 @@ df_all = pd.concat((df_train, df_test), axis=0, ignore_index=True)
 ### load product attributes ###############
 df_attr = pd.read_csv(DATA_DIR+'/attributes.csv', encoding="ISO-8859-1")
 
-print 'loading time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'loading time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -83,7 +83,7 @@ for i in range(0,len(uniq_brands)):
             if re.search(r'[a-z][A-Z][a-z]',word)!=None:
                 add_space_stop_list.append(word.lower())
 add_space_stop_list=list(set(add_space_stop_list))      
-print len(add_space_stop_list)," words from brands in add_space_stop_list"
+print( len(add_space_stop_list)," words from brands in add_space_stop_list")
                 
 uniq_titles=list(set(list(df_all['product_title'])))
 for i in range(0,len(uniq_titles)):
@@ -93,7 +93,7 @@ for i in range(0,len(uniq_titles)):
             if re.search(r'[a-z][A-Z][a-z]',word)!=None:
                 add_space_stop_list.append(word.lower())    
 add_space_stop_list=list(set(add_space_stop_list))      
-print len(add_space_stop_list) ," total words from brands and product titles in add_space_stop_list\n"
+print( len(add_space_stop_list) ," total words from brands and product titles in add_space_stop_list\n")
                 
 
 #################################################################
@@ -207,7 +207,7 @@ for i in range(0,len(errors_dict.keys())):
     if source=="":
         for correct_word in words_from_matched_titles: 
             rt, rt_scaled = seq_matcher(word,correct_word)
-            #print correct_word, rt,rt_scaled
+            #print( correct_word, rt,rt_scaled
             
             if rt>0.75+delta or (len(word)<6 and rt>0.68+delta):
                 lst.append(correct_word)
@@ -227,9 +227,9 @@ for i in range(0,len(errors_dict.keys())):
         source="from all products"
         for correct_word in correct_dict.keys():
             rt, rt_scaled = seq_matcher(word,correct_word)
-            #print correct_word, rt,rt_scaled
+            #print( correct_word, rt,rt_scaled
             if correct_dict[correct_word]["title"]>10 and (rt>0.8+delta or (len(word)<6 and rt>0.73+delta)):
-                #print correct_word, rt,rt_scaled
+                #print( correct_word, rt,rt_scaled
                 lst.append(correct_word)
                 lst_tuple.append((correct_word,correct_dict[correct_word]["title"]))
                 if rt>rt_max:
@@ -249,9 +249,9 @@ for i in range(0,len(errors_dict.keys())):
         errors_dict[word]["suggestion"]=""
         errors_dict[word]["others"]=lst_tuple
         errors_dict[word]["source"]=source
-    #print(cnt, word, errors_dict[word]["query"], errors_dict[word]["suggestion"], source, errors_dict[word]["others"])
+    #print((cnt, word, errors_dict[word]["query"], errors_dict[word]["suggestion"], source, errors_dict[word]["others"])
     #if (cnt % 20)==0:
-    #    print cnt, " out of ", NN, "; ", round((time()-t0),1) ,' sec'
+    #    print( cnt, " out of ", NN, "; ", round((time()-t0),1) ,' sec'
 
 ### 2. Add some words with digits
 ### If the word begins with a meanigful part [len(wn.synsets(srch.group(0)))>0],
@@ -265,13 +265,13 @@ for word in my_dict.keys():
             errors_dict[word]=my_dict[word]
             errors_dict[word]["source"]="added space before digit"
             errors_dict[word]["suggestion"]=re.sub(r'(?<=^)'+srch.group(0)+r'(?=[a-zA-Z0-9])',srch.group(0)+' ',word)
-            #print word, re.sub(r'(?<=^)'+srch.group(0)+r'(?=[a-zA-Z0-9])',srch.group(0)+' ',word)
+            #print( word, re.sub(r'(?<=^)'+srch.group(0)+r'(?=[a-zA-Z0-9])',srch.group(0)+' ',word)
 
 ### save dictionary
 corrections_df=pd.DataFrame(errors_dict).transpose()
 corrections_df.to_csv(PROCESSINGTEXT_DIR+"/automatically_generated_word_corrections_wo_google.csv")
 
-print 'building spell checker time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'building spell checker time:',round((time()-t0)/60,1) ,'minutes\n')
 
 ##### END OF SPELL CHECKER ######################################
 #################################################################
@@ -303,7 +303,7 @@ df_all['search_term_parsed']=col_parser(df_all['search_term'],automatic_spell_ch
             add_space_stop_list=[]).map(lambda x: x.encode('utf-8'))
 df_all['search_term_parsed_wospellcheck']=col_parser(df_all['search_term'],automatic_spell_check_dict={},\
             add_space_stop_list=[]).map(lambda x: x.encode('utf-8'))
-print 'search_term parsing time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'search_term parsing time:',round((time()-t0)/60,1) ,'minutes\n')
 
 
 
@@ -321,14 +321,14 @@ def match_queries(q1,q2):
 df_all['is_query_misspelled']=df_all.apply(lambda x: \
             match_queries(x['search_term_parsed'],x['search_term_parsed_wospellcheck']),axis=1)
 df_all=df_all.drop(['search_term_parsed_wospellcheck'],axis=1)    
-print 'create dummy "is_query_misspelled" time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'create dummy "is_query_misspelled" time:',round((time()-t0)/60,1) ,'minutes\n')
 
 
 
 t0 = time()
 df_all['product_title_parsed']=col_parser(df_all['product_title'],add_space_stop_list=[],\
                 remove_from_brackets=True).map(lambda x: x.encode('utf-8'))
-print 'product_title parsing time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'product_title parsing time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -484,7 +484,7 @@ df_all['brand_parsed']=df_all['brand_parsed'].map(lambda x: replace_brand_dict[x
 
 ### count frequencies of brands in query and product_title
 str_query=" : ".join(list(df_all['search_term_parsed'])).lower()
-print "\nGenerating brand dict: How many times each brand appears in the dataset?"
+print( "\nGenerating brand dict: How many times each brand appears in the dataset?")
 brand_dict=get_attribute_dict(list_brands,str_query=str_query)
 
 ### These words are likely to mean other things than brand names. 
@@ -544,7 +544,7 @@ for item in brand_dict.keys():
         del(brand_dict[item])
 
 brand_df=pd.DataFrame(brand_dict).transpose().sort(['cnt_query'], ascending=[1])
-print 'brand dict creation time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'brand dict creation time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -587,11 +587,11 @@ for i in range(0,len(key_list)):
         dict_materials[tmp_material['product_uid'][key_list[i]]]['cnt']=1
         dict_materials[tmp_material['product_uid'][key_list[i]]]['material']=tmp_material['value'][key_list[i]]
     else:
-        ##print key_list[i]
+        ##print( key_list[i]
         dict_materials[tmp_material['product_uid'][key_list[i]]]['material']=dict_materials[tmp_material['product_uid'][key_list[i]]]['material']+' '+tmp_material['value'][key_list[i]]
         dict_materials[tmp_material['product_uid'][key_list[i]]]['cnt']+=1
     if (i % 10000)==0:
-        print i
+        print( i)
                        
 df_materials=pd.DataFrame(dict_materials).transpose()
 
@@ -607,7 +607,7 @@ list_materials=list(df_all['material_parsed'].map(lambda x: x.lower()))
 
 
 ### count frequencies of materials in query and product_title
-print "\nGenerating material dict: How many times each material appears in the dataset?"
+print( "\nGenerating material dict: How many times each material appears in the dataset?")
 material_dict=get_attribute_dict(list_materials,str_query=str_query)
 
 
@@ -635,7 +635,7 @@ for key in set(material_dict.keys()):
 
 
 material_df=pd.DataFrame(material_dict).transpose().sort(['cnt_query'], ascending=[1])
-print 'material dict creation time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'material dict creation time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 #################################################################
@@ -680,18 +680,18 @@ my_dict={}
 for i in range(0,len(aa)):
     my_dict[aa[i]]=getremove_brand_or_material_from_str(aa[i],brand_df)
     if (i % 5000)==0:
-        print "Extracted brands from",i,"out of",len(aa),"unique search terms; ", str(round((time()-t0)/60,1)),"minutes"
+        print( "Extracted brands from",i,"out of",len(aa),"unique search terms; ", str(round((time()-t0)/60,1)),"minutes")
 df_all['search_term_tuple']= df_all['search_term_parsed'].map(lambda x: my_dict[x])
 df_all['search_term_parsed_woBrand']= df_all['search_term_tuple'].map(lambda x: x[0])
 df_all['brands_in_search_term']= df_all['search_term_tuple'].map(lambda x: x[1])
-print 'extract brands from query time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'extract brands from query time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 df_all['search_term_tuple']= df_all['search_term_parsed_woBrand'].map(lambda x: getremove_brand_or_material_from_str(x,material_df))
 df_all['search_term_parsed_woBM']= df_all['search_term_tuple'].map(lambda x: x[0])
 df_all['materials_in_search_term']= df_all['search_term_tuple'].map(lambda x: x[1])
 df_all=df_all.drop('search_term_tuple',axis=1)
-print 'extract materials from query time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'extract materials from query time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -701,12 +701,12 @@ my_dict={}
 for i in range(0,len(aa)):
     my_dict[aa[i]]=getremove_brand_or_material_from_str(aa[i],brand_df)
     if (i % 5000)==0:
-        print "Extracted brands from",i,"out of",len(aa),"unique product titles; ", str(round((time()-t0)/60,1)),"minutes"
+        print( "Extracted brands from",i,"out of",len(aa),"unique product titles; ", str(round((time()-t0)/60,1)),"minutes")
 
 df_all['product_title_tuple']= df_all['product_title_parsed'].map(lambda x: my_dict[x])
 df_all['product_title_parsed_woBrand']= df_all['product_title_tuple'].map(lambda x: x[0])
 df_all['brands_in_product_title']= df_all['product_title_tuple'].map(lambda x: x[1])
-print 'extract brands from product title time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'extract brands from product title time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -714,7 +714,7 @@ df_all['product_title_tuple']= df_all['product_title_parsed_woBrand'].map(lambda
 df_all['product_title_parsed_woBM']= df_all['product_title_tuple'].map(lambda x: x[0])
 df_all['materials_in_product_title']= df_all['product_title_tuple'].map(lambda x: x[1])
 df_all=df_all.drop('product_title_tuple',axis=1)
-print 'extract materials from product titles time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'extract materials from product titles time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -728,10 +728,10 @@ t0 = time()
 
 ### We use nltk.pos_tagger() to tag words
 df_all['search_term_tokens'] =col_tagger(df_all['search_term_parsed_woBM'])
-print 'search term tagging time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'search term tagging time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 df_all['product_title_tokens'] =col_tagger(df_all['product_title_parsed_woBM'])
-print 'product title tagging time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'product title tagging time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -755,7 +755,7 @@ for product_uid in list(set(list(df_attr['product_uid']))):
 
 for i in range(0,len(df_attr['product_uid'])):
     if (i % 100000)==0:
-        print "Read",i,"out of", len(df_attr['product_uid']), "rows in attributes.csv in", round((time()-t0)/60,1) ,'minutes'
+        print( "Read",i,"out of", len(df_attr['product_uid']), "rows in attributes.csv in", round((time()-t0)/60,1) ,'minutes')
     if df_attr['name'][i][0:6]=="Bullet":
         dict_attr[int(df_attr['product_uid'][i])]['attribute_bullets'].append(df_attr['value'][i])
             
@@ -772,7 +772,7 @@ for item in dict_attr.keys():
                                              
 df_attr_bullets=pd.DataFrame(dict_attr).transpose()
 df_attr_bullets['attribute_bullets']=df_attr_bullets['attribute_bullets'].map(lambda x: x.replace("..",".").encode('utf-8'))
-print 'create attributes bullets time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'create attributes bullets time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -784,14 +784,14 @@ t0 = time()
 ### Then we follow similar steps as for query and product title above
 ### Parsing
 df_attr_bullets['attribute_bullets_parsed'] = df_attr_bullets['attribute_bullets'].map(lambda x:str_parser(x,add_space_stop_list=[]))
-print 'attribute bullets parsing time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'attribute bullets parsing time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 ### Extracting brands...
 df_attr_bullets['attribute_bullets_tuple']= df_attr_bullets['attribute_bullets_parsed'].map(lambda x: getremove_brand_or_material_from_str(x,brand_df))
 df_attr_bullets['attribute_bullets_parsed_woBrand']= df_attr_bullets['attribute_bullets_tuple'].map(lambda x: x[0])
 df_attr_bullets['brands_in_attribute_bullets']= df_attr_bullets['attribute_bullets_tuple'].map(lambda x: x[1])
-print 'extract brands from attribute_bullets time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'extract brands from attribute_bullets time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 ### ... and materials from text...
@@ -799,12 +799,12 @@ df_attr_bullets['attribute_bullets_tuple']= df_attr_bullets['attribute_bullets_p
 df_attr_bullets['attribute_bullets_parsed_woBM']= df_attr_bullets['attribute_bullets_tuple'].map(lambda x: x[0])
 df_attr_bullets['materials_in_attribute_bullets']= df_attr_bullets['attribute_bullets_tuple'].map(lambda x: x[1])
 df_attr_bullets=df_attr_bullets.drop(['attribute_bullets_tuple'],axis=1)
-print 'extract materials from attribute_bullets time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'extract materials from attribute_bullets time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 ### ... and tagging text using NLTK
-df_attr_bullets['attribute_bullets_tokens'] =col_tagger(df_attr_bullets['attribute_bullets_parsed_woBM'])
-print 'attribute bullets tagging time:',round((time()-t0)/60,1) ,'minutes\n'
+df_attr_bullets['attribute_bullets_tokens'] = col_tagger(df_attr_bullets['attribute_bullets_parsed_woBM'])
+print( 'attribute bullets tagging time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 ##### END OF PROCESS ATTRIBUTES BULLETS #########################
@@ -819,14 +819,14 @@ df_pro_desc = pd.read_csv(DATA_DIR+'/product_descriptions.csv')
 
 ### Parsing
 df_pro_desc['product_description_parsed'] = df_pro_desc['product_description'].map(lambda x:str_parser(x,add_space_stop_list=add_space_stop_list).encode('utf-8'))
-print 'product description parsing time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'product description parsing time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 ### Extracting brands...
 df_pro_desc['product_description_tuple']= df_pro_desc['product_description_parsed'].map(lambda x: getremove_brand_or_material_from_str(x,brand_df))
 df_pro_desc['product_description_parsed_woBrand']= df_pro_desc['product_description_tuple'].map(lambda x: x[0])
 df_pro_desc['brands_in_product_description']= df_pro_desc['product_description_tuple'].map(lambda x: x[1])
-print 'extract brands from product_description time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'extract brands from product_description time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 ### ... and materials from text...
@@ -834,12 +834,12 @@ df_pro_desc['product_description_tuple']= df_pro_desc['product_description_parse
 df_pro_desc['product_description_parsed_woBM']= df_pro_desc['product_description_tuple'].map(lambda x: x[0])
 df_pro_desc['materials_in_product_description']= df_pro_desc['product_description_tuple'].map(lambda x: x[1])
 df_pro_desc=df_pro_desc.drop(['product_description_tuple'],axis=1)
-print 'extract materials from product_description time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'extract materials from product_description time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 ### ... and tagging text using NLTK
 df_pro_desc['product_description_tokens'] = col_tagger(df_pro_desc['product_description_parsed_woBM'])
-print 'product decription tagging time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'product decription tagging time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 df_pro_desc['product_description']= df_pro_desc['product_description'].map(lambda x: x.encode('utf-8'))
@@ -850,7 +850,7 @@ df_pro_desc['product_description']= df_pro_desc['product_description'].map(lambd
 #df_pro_desc['product_description_stemmed']=df_pro_desc['product_description_parsed'].map(lambda x:str_stemmer_wo_parser(x))
 #df_pro_desc['product_description_stemmed_woBM']=df_pro_desc['product_description_parsed_woBM'].map(lambda x:str_stemmer_wo_parser(x))
 #df_pro_desc['product_description_stemmed_woBrand']=df_pro_desc['product_description_parsed_woBrand'].map(lambda x:str_stemmer_wo_parser(x))
-#print 'stemming description and bullets time:',round((time()-t0)/60,1) ,'minutes\n'
+#print( 'stemming description and bullets time:',round((time()-t0)/60,1) ,'minutes\n'
 #t0 = time()
 
 
@@ -1082,11 +1082,11 @@ my_dict={}
 for i in range(0,len(aa)):
     my_dict[aa[i]]=getremove_brand_or_material_from_str(aa[i],brand_df)
     if (i % 5000)==0:
-        print "processed "+str(i)+" out of "+str(len(aa))+" unique cut product titles; "+str(round((time()-t0)/60,1))+" minutes"
+        print( "processed "+str(i)+" out of "+str(len(aa))+" unique cut product titles; "+str(round((time()-t0)/60,1))+" minutes")
 df_all['product_title_cut_tuple']= df_all['product_title_cut'].map(lambda x: my_dict[x])
 df_all['product_title_cut_woBrand']= df_all['product_title_cut_tuple'].map(lambda x: x[0])
 df_all=df_all.drop(['product_title_cut_tuple'],axis=1)
-print 'extract brands from cut product title:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'extract brands from cut product title:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 ### Tagging two times: full sentences and separate words
@@ -1203,7 +1203,7 @@ df_all=df_all.drop(['search_term_thekey_tuple'],axis=1)
 #df_all['search_term_before2thekey_stemmed']=df_all['search_term_before2thekey'].map(lambda x: str_stemmer_wo_parser(x,stoplist=stoplist_wo_can))
 #df_all['product_title_before2thekey_stemmed']=df_all['product_title_before2thekey'].map(lambda x: str_stemmer_wo_parser(x,stoplist=stoplist_wo_can))
 
-print 'extracting important words time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'extracting important words time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -1238,7 +1238,7 @@ df_all['product_title_beforethekey_stemmed']=df_all['product_title_beforethekey'
 df_all['search_term_before2thekey_stemmed']=df_all['search_term_before2thekey'].map(lambda x: str_stemmer_wo_parser(x,stoplist=stoplist_wo_can))
 df_all['product_title_before2thekey_stemmed']=df_all['product_title_before2thekey'].map(lambda x: str_stemmer_wo_parser(x,stoplist=stoplist_wo_can))
 
-print 'stemming time:',round((time()-t0)/60,1) ,'minutes\n'
+print( 'stemming time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
 
@@ -1254,7 +1254,7 @@ df_attr_bullets.to_csv(PROCESSINGTEXT_DIR+"/df_attribute_bullets_processed_wo_go
 df_pro_desc.to_csv(PROCESSINGTEXT_DIR+"/df_product_descriptions_processed_wo_google.csv", index=False)
 
 
-print 'TOTAL PROCESSING TIME:',round((time()-t1)/60,1) ,'minutes\n'
+print( 'TOTAL PROCESSING TIME:',round((time()-t1)/60,1) ,'minutes\n')
 t1 = time()
 
 df_all=df_all.drop(list(df_all.keys()),axis=1)

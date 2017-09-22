@@ -7,7 +7,7 @@ Author: Igor Buinyi
 Team: Turing test
 """
 
-from config_IgorKostia import *
+from .config_IgorKostia import *
 
 import numpy as np
 import pandas as pd
@@ -67,7 +67,7 @@ for f in files:
                 df_all_submission[model_name]=df_model_submission['relevance']  
                 
             models.append(model_name)
-            print "loaded", model_name
+            print( "loaded", model_name)
 
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error
@@ -78,10 +78,10 @@ import statsmodels.api as sm
 n=len(df_all_validation['actual'])/2
 
 for model in models:
-    print "%s\t1st split: %.5f, 2nd split: %.5f, total: %.5f" % (model, \
+    print( "%s\t1st split: %.5f, 2nd split: %.5f, total: %.5f" % (model, \
     mean_squared_error(df_all_validation['actual'][:n], df_all_validation[model][:n])**0.5, \
     mean_squared_error(df_all_validation['actual'][n:], df_all_validation[model][n:])**0.5,\
-    mean_squared_error(df_all_validation['actual'], df_all_validation[model])**0.5)
+    mean_squared_error(df_all_validation['actual'], df_all_validation[model])**0.5))
 
 mean_relevance=np.mean(df_all_validation['actual'])
 y = df_all_validation['actual'].values
@@ -117,34 +117,34 @@ n=len(df_all_validation['actual'])/2
 
 
 results_fold1 = sm.OLS(y[:n], X[:n]).fit()
-#print results_fold1.summary()
+#print( results_fold1.summary()
 X_fold2 = X[n:]
 pred_fold2=adjusted_predictions(results_fold1.predict(X_fold2))
-print mean_squared_error(df_all_validation['actual'][:n], adjusted_predictions(results_fold1.predict(X[:n])))**0.5
-print mean_squared_error(df_all_validation['actual'][n:], pred_fold2)**0.5
+print( mean_squared_error(df_all_validation['actual'][:n], adjusted_predictions(results_fold1.predict(X[:n])))**0.5
+print( mean_squared_error(df_all_validation['actual'][n:], pred_fold2)**0.5
 
 results_fold2 = sm.OLS(y[n:], X[n:]).fit()
-#print results_fold1.summary()
+#print( results_fold1.summary()
 X_fold1 = X[:n]
 pred_fold1=adjusted_predictions(results_fold2.predict(X_fold1))
-print mean_squared_error(df_all_validation['actual'][n:], adjusted_predictions(results_fold2.predict(X[n:])))**0.5
-print mean_squared_error(df_all_validation['actual'][:n], pred_fold1)**0.5
+print( mean_squared_error(df_all_validation['actual'][n:], adjusted_predictions(results_fold2.predict(X[n:])))**0.5
+print( mean_squared_error(df_all_validation['actual'][:n], pred_fold1)**0.5
 
 
 results_fold1 = sm.OLS(y[:n], X_with_squares[:n]).fit()
-#print results_fold1.summary()
+#print( results_fold1.summary()
 X_fold2 = X_with_squares[n:]
 pred_fold2=adjusted_predictions(results_fold1.predict(X_fold2))
-print mean_squared_error(df_all_validation['actual'][:n], adjusted_predictions(results_fold1.predict(X_with_squares[:n])))**0.5
-print mean_squared_error(df_all_validation['actual'][n:], pred_fold2)**0.5
+print( mean_squared_error(df_all_validation['actual'][:n], adjusted_predictions(results_fold1.predict(X_with_squares[:n])))**0.5
+print( mean_squared_error(df_all_validation['actual'][n:], pred_fold2)**0.5
 
 """
 
 
 ### regress train relevances on CV prediction from models
 results = sm.OLS(y, X).fit()
-print results.summary()
-print mean_squared_error(df_all_validation['actual'], results.predict(X))**0.5
+print( results.summary())
+print( mean_squared_error(df_all_validation['actual'], results.predict(X))**0.5)
 
 X_test = sm.add_constant(df_all_submission[models].apply(lambda x: x-mean_relevance))
 pred1=results.predict(X_test)

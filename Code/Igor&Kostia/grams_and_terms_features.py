@@ -6,7 +6,7 @@ Author: Kostia Omelianchuk
 Team: Turing test
 """
 
-from config_IgorKostia import *
+from .config_IgorKostia import *
 
 import numpy as np
 import pandas as pd
@@ -21,7 +21,7 @@ import math as m
 import gc
 import sys
 
-from homedepot_functions import str_stemmer
+from .homedepot_functions import str_stemmer
 
 
 ###data loading
@@ -72,7 +72,7 @@ df_all = pd.merge(df_all, df_atrr, how='left', on='product_uid')
 
 p = df_all.keys()
 for i in range(len(p)):
-    print p[i]
+    print( p[i])
 
 
 #replace nan
@@ -165,7 +165,7 @@ def getFourgram(str1, join_string):
     L = len(words)
     if L > 3:
         lst = []
-        for i in xrange(L-3):
+        for i in range(L-3):
             lst.append( join_string.join([words[i], words[i+1], words[i+2], words[i+3]]) )
     else:
         # set it as bigram
@@ -203,9 +203,9 @@ def getTriterm(str1, join_string):
     L = len(words)
     if L > 2:
         lst = []
-        for i in xrange(L-2):
-            for j in xrange(i+1,L-1):
-                for k in xrange(j+1,L):
+        for i in range(L-2):
+            for j in range(i+1,L-1):
+                for k in range(j+1,L):
                     lst.append( join_string.join([words[i], words[j], words[k]]) )
     else:
         # set it as biterm
@@ -221,14 +221,14 @@ df_all['pt_unigram'] = df_all['product_info'].map(lambda x:getUnigram(x.split('\
 df_all['pd_unigram'] = df_all['product_info'].map(lambda x:getUnigram(x.split('\t')[5]))
 df_all['ab_unigram'] = df_all['product_info'].map(lambda x:getUnigram(x.split('\t')[7]))
 df_all['at_unigram'] = df_all['product_info'].map(lambda x:getUnigram(x.split('\t')[9]))
-print 'unigram time:',round(time()-t0,3) ,'s\n'
+print( 'unigram time:',round(time()-t0,3) ,'s\n')
 
 st_names=["st_unigram", "pt_unigram","pd_unigram","ab_unigram","at_unigram"]
 b=df_all[st_names]
 b["id"]=df_all["id"]
 b.to_csv(PROCESSINGTEXT_DIR+"/df_unigram.csv", index=False, encoding='utf-8') 
 #df_all=df_all.drop(st_names,axis=1)
-print 1
+print( 1)
 gc.collect()
 t0 = time()
 df_all['st_bigram'] = df_all['product_info'].map(lambda x:getBigram(x.split('\t')[1],"_"))
@@ -236,14 +236,14 @@ df_all['pt_bigram'] = df_all['product_info'].map(lambda x:getBigram(x.split('\t'
 df_all['pd_bigram'] = df_all['product_info'].map(lambda x:getBigram(x.split('\t')[5],"_"))
 df_all['ab_bigram'] = df_all['product_info'].map(lambda x:getBigram(x.split('\t')[7],"_"))
 df_all['at_bigram'] = df_all['product_info'].map(lambda x:getBigram(x.split('\t')[9],"_"))
-print 'bigram time:',round(time()-t0,3) ,'s\n'
+print( 'bigram time:',round(time()-t0,3) ,'s\n')
 
 st_names=["st_bigram", "pt_bigram","pd_bigram","ab_bigram","at_bigram"]
 b=df_all[st_names]
 b["id"]=df_all["id"]
 b.to_csv(PROCESSINGTEXT_DIR+"/df_bigram.csv", index=False, encoding='utf-8') 
 #df_all=df_all.drop(st_names,axis=1)
-print 2
+print( 2)
 gc.collect()
 t0 = time()
 df_all['st_trigram'] = df_all['product_info'].map(lambda x:getTrigram(x.split('\t')[1],"_"))
@@ -251,14 +251,14 @@ df_all['pt_trigram'] = df_all['product_info'].map(lambda x:getTrigram(x.split('\
 df_all['pd_trigram'] = df_all['product_info'].map(lambda x:getTrigram(x.split('\t')[5],"_"))
 df_all['ab_trigram'] = df_all['product_info'].map(lambda x:getTrigram(x.split('\t')[7],"_"))
 df_all['at_trigram'] = df_all['product_info'].map(lambda x:getTrigram(x.split('\t')[9],"_"))
-print 'trigram time:',round(time()-t0,3) ,'s\n'
+print( 'trigram time:',round(time()-t0,3) ,'s\n')
 
 st_names=["st_trigram", "pt_trigram","pd_trigram","ab_trigram","at_trigram"]
 b=df_all[st_names]
 b["id"]=df_all["id"]
 b.to_csv(PROCESSINGTEXT_DIR+"/df_trigram.csv", index=False, encoding='utf-8') 
 #df_all=df_all.drop(st_names,axis=1)
-print 3
+print( 3)
 gc.collect()
 t0 = time()
 df_all['st_fourgram'] = df_all['product_info'].map(lambda x:getFourgram(x.split('\t')[1],"_"))
@@ -266,14 +266,14 @@ df_all['pt_fourgram'] = df_all['product_info'].map(lambda x:getFourgram(x.split(
 df_all['pd_fourgram'] = df_all['product_info'].map(lambda x:getFourgram(x.split('\t')[5],"_"))
 df_all['ab_fourgram'] = df_all['product_info'].map(lambda x:getFourgram(x.split('\t')[7],"_"))
 df_all['at_fourgram'] = df_all['product_info'].map(lambda x:getFourgram(x.split('\t')[9],"_"))
-print 'fourgram time:',round(time()-t0,3) ,'s\n'
+print( 'fourgram time:',round(time()-t0,3) ,'s\n')
 
 st_names=["st_fourgram", "pt_fourgram","pd_fourgram","ab_fourgram","at_fourgram"]
 b=df_all[st_names]
 b["id"]=df_all["id"]
 b.to_csv(PROCESSINGTEXT_DIR+"/df_fourgram.csv", index=False, encoding='utf-8') 
 #df_all=df_all.drop(st_names,axis=1)
-print 4
+print( 4)
 gc.collect()
 t0 = time()
 df_all['st_biterm'] = df_all['product_info'].map(lambda x:getBiterm(x.split('\t')[1],"_"))
@@ -282,14 +282,14 @@ df_all['pt_biterm'] = df_all['product_info'].map(lambda x:getBiterm(x.split('\t'
 #df_all['pd_biterm'] = df_all['product_info'].map(lambda x:getBiterm(x.split('\t')[5],"_"))
 #df_all['ab_biterm'] = df_all['product_info'].map(lambda x:getBiterm(x.split('\t')[7],"_"))
 #df_all['at_biterm'] = df_all['product_info'].map(lambda x:getBiterm(x.split('\t')[9],"_"))
-print 'biterm time:',round(time()-t0,3) ,'s\n'
+print( 'biterm time:',round(time()-t0,3) ,'s\n')
 
 #st_names=["st_biterm", "pt_biterm","pd_biterm","ab_biterm","at_biterm"]
 #b=df_all[st_names]
 #b["id"]=df_all["id"]
 #b.to_csv(DATA_DIR+"/df_biterm.csv", index=False) 
 #df_all=df_all.drop(st_names,axis=1)
-#print 5
+#print( 5
 
 gc.collect()
 t0 = time()
@@ -298,14 +298,14 @@ df_all['pt_triterm'] = df_all['product_info'].map(lambda x:getTriterm(x.split('\
 #df_all['pd_triterm'] = df_all['product_info'].map(lambda x:getTriterm(x.split('\t')[5],"_"))
 #df_all['ab_triterm'] = df_all['product_info'].map(lambda x:getTriterm(x.split('\t')[7],"_"))
 #df_all['at_triterm'] = df_all['product_info'].map(lambda x:getTriterm(x.split('\t')[9],"_"))
-print 'triterm time:',round(time()-t0,3) ,'s\n'
+print( 'triterm time:',round(time()-t0,3) ,'s\n')
 
 st_names=["st_biterm", "pt_biterm","st_triterm", "pt_triterm"]
 b=df_all[st_names]
 b["id"]=df_all["id"]
 b.to_csv(PROCESSINGTEXT_DIR+"/df_bitriterm.csv", index=False, encoding='utf-8') 
 #df_all=df_all.drop(st_names,axis=1)
-print 6
+print( 6)
 
 
 u= pd.read_csv(PROCESSINGTEXT_DIR+'/df_unigram.csv')
@@ -323,7 +323,7 @@ df_all["id"]=df_all2["id"]
 
 df_all.to_csv(PROCESSINGTEXT_DIR+"/df_with_all_terms_final.csv", index=False, encoding='utf-8') 
 
-print "gram is over"
+print( "gram is over")
 
 
 
@@ -344,11 +344,11 @@ def replace_nan(s):
 
 t0 = time()
 for i in range(0,len(df_all.keys())-1):
-    print  df_all.ix[:,i][0:1]
+    print(  df_all.ix[:,i][0:1])
     df_all.ix[:,i] = df_all.ix[:,i].map(lambda x:replace_nan(x))
     
-    print  df_all.ix[:,i][0:1]
-    print i
+    print(  df_all.ix[:,i][0:1])
+    print( i)
 
 
 
@@ -384,7 +384,7 @@ for i in range(0,5):
     for t in range(i+1,5):
         for j in range(0,6):#6):
             if j<=3:
-                print (nt[i])+'_'+(nt[t])+'_'+(gn[j])+'_intersept'
+                print( (nt[i])+'_'+(nt[t])+'_'+(gn[j])+'_intersept')
                 df_all[(nt[i])+'_'+(nt[t])+'_'+(gn[j])+'_intersept'] = [intersect2(x,y) for x,y in zip(df_all[(nt[i])+'_'+(gn[j])],df_all[(nt[t])+'_'+(gn[j])])]
                 #vectorizer_tmp =  TfidfVectorizer(stop_words='english',max_df=0.5)
                 #features = vectorizer_tmp.fit_transform(list(set(list(df_all[(nt[t])+'_'+(gn[j])]))))
@@ -394,7 +394,7 @@ for i in range(0,5):
                 #df_all[(nt[i])+'_'+(nt[t])+'_'+(gn[j])+'_tfidf'] = tfidf.tocsr().dot(uno_title)
             else:
                 if t<2:
-                    print (nt[i])+'_'+(nt[t])+'_'+(gn[j])+'_intersept'
+                    print( (nt[i])+'_'+(nt[t])+'_'+(gn[j])+'_intersept')
                     df_all[(nt[i])+'_'+(nt[t])+'_'+(gn[j])+'_intersept'] = [intersect2(x,y) for x,y in zip(df_all[(nt[i])+'_'+(gn[j])],df_all[(nt[t])+'_'+(gn[j])])]
                     #vectorizer_tmp =  TfidfVectorizer(stop_words='english',max_df=0.5)
                     #features = vectorizer_tmp.fit_transform(list(set(list(df_all[(nt[t])+'_'+(gn[j])]))))
@@ -412,11 +412,11 @@ def replace_nan(s):
         return s
 
 for i in range(25,len(df_all.keys())):
-    print  df_all.ix[:,i][0:1]
+    print(  df_all.ix[:,i][0:1])
     df_all.ix[:,i] = df_all.ix[:,i].map(lambda x:replace_nan(x))
     #df_all.ix[:,i] = df_all.ix[:,i].map(lambda x:splitter(x))
-    print  df_all.ix[:,i][0:1]
-    print i
+    print(  df_all.ix[:,i][0:1])
+    print( i)
 
 
 #calcualte tfidf between instersection
@@ -426,7 +426,7 @@ for i in range(0,5):
         for j in range(0,6):#6):
             t0 = time()
             if j<=3:
-                print (nt[i])+'_'+(nt[t])+'_'+(gn[j])+'_intersept'
+                print( (nt[i])+'_'+(nt[t])+'_'+(gn[j])+'_intersept')
                 #df_all[(nt[i])+'_'+(nt[t])+'_'+(gn[j])+'_intersept'] = [intersect2(x,y) for x,y in zip(df_all[(nt[i])+'_'+(gn[j])],df_all[(nt[t])+'_'+(gn[j])])]
                 vectorizer_tmp =  TfidfVectorizer(stop_words='english',max_df=0.5)
                 #features = vectorizer_tmp.fit_transform(list(set(list(df_all[(nt[t])+'_'+(gn[j])]  ))))
@@ -435,10 +435,10 @@ for i in range(0,5):
         
                 uno_title=np.ones((len(vectorizer_tmp.get_feature_names()),1)) 
                 df_all[(nt[i])+'_'+(nt[t])+'_'+(gn[j])+'_tfidf'] = tfidf.tocsr().dot(uno_title)
-                print 'replace time:',round(time()-t0,3) ,'s\n'
+                print( 'replace time:',round(time()-t0,3) ,'s\n')
             else:
                 if t<2:
-                    print (nt[i])+'_'+(nt[t])+'_'+(gn[j])+'_intersept'
+                    print( (nt[i])+'_'+(nt[t])+'_'+(gn[j])+'_intersept')
                     #df_all[(nt[i])+'_'+(nt[t])+'_'+(gn[j])+'_intersept'] = [intersect2(x,y) for x,y in zip(df_all[(nt[i])+'_'+(gn[j])],df_all[(nt[t])+'_'+(gn[j])])]
                     vectorizer_tmp =  TfidfVectorizer(stop_words='english',max_df=0.5)
                     #features = vectorizer_tmp.fit_transform(list(set(list(df_all[(nt[t])+'_'+(gn[j])]))))
@@ -447,7 +447,7 @@ for i in range(0,5):
         
                     uno_title=np.ones((len(vectorizer_tmp.get_feature_names()),1)) 
                     df_all[(nt[i])+'_'+(nt[t])+'_'+(gn[j])+'_tfidf'] = tfidf.tocsr().dot(uno_title)
-                    print 'replace time:',round(time()-t0,3) ,'s\n'
+                    print( 'replace time:',round(time()-t0,3) ,'s\n')
 
 
 #save features
@@ -514,94 +514,94 @@ dists = "dice_dist"
 
 t0 = time()
 df_all['st_pt__unigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_unigram'], x['pt_unigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_pd__unigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_unigram'], x['pd_unigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_at__unigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_unigram'], x['at_unigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_pd__unigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_unigram'], x['pd_unigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_at__unigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_unigram'], x['at_unigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pd_at__unigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pd_unigram'], x['at_unigram'] ,dists), axis=1))
 
-print 'unigram time:',round(time()-t0,3) ,'s\n'
+print( 'unigram time:',round(time()-t0,3) ,'s\n')
 
 
 t0 = time()
 df_all['st_pt__bigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_bigram'], x['pt_bigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_pd__bigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_bigram'], x['pd_bigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_at__bigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_bigram'], x['at_bigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_pd__bigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_bigram'], x['pd_bigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_at__bigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_bigram'], x['at_bigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pd_at__bigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pd_bigram'], x['at_bigram'] ), axis=1))
 
-print 'bigram time:',round(time()-t0,3) ,'s\n'
+print( 'bigram time:',round(time()-t0,3) ,'s\n')
 
 
 t0 = time()
 df_all['st_pt__trigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_trigram'], x['pt_trigram'] ,dists ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_pd__trigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_trigram'], x['pd_trigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_at__trigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_trigram'], x['at_trigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_pd__trigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_trigram'], x['pd_trigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_at__trigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_trigram'], x['at_trigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pd_at__trigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pd_trigram'], x['at_trigram'] ,dists), axis=1))
 
-print 'trigram time:',round(time()-t0,3) ,'s\n'
+print( 'trigram time:',round(time()-t0,3) ,'s\n')
 
 
 t0 = time()
 df_all['st_pt__fourgram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_fourgram'], x['pt_fourgram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_pd__fourgram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_fourgram'], x['pd_fourgram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_at__fourgram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_fourgram'], x['at_fourgram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_pd__fourgram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_fourgram'], x['pd_fourgram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_at__fourgram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_fourgram'], x['at_fourgram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pd_at__fourgram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pd_fourgram'], x['at_fourgram'] ), axis=1))
 
-print 'fourgram time:',round(time()-t0,3) ,'s\n'
+print( 'fourgram time:',round(time()-t0,3) ,'s\n')
 
 t0 = time()
 df_all['st_pt__biterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_biterm'], x['pt_biterm'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_pd__biterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_biterm'], x['pd_bigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_at__biterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_biterm'], x['at_bigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_pd__biterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_biterm'], x['pd_bigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_at__biterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_biterm'], x['at_bigram'] ), axis=1))
 
 
-print 'biterm time:',round(time()-t0,3) ,'s\n'
+print( 'biterm time:',round(time()-t0,3) ,'s\n')
 
 t0 = time()
 df_all['st_pt__triterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_triterm'], x['pt_triterm'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_pd__triterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_triterm'], x['pd_trigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_at__triterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_triterm'], x['at_trigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_pd__triterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_triterm'], x['pd_trigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_at__triterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_triterm'], x['at_trigram'] ), axis=1))
 
 
-print 'triterm time:',round(time()-t0,3) ,'s\n'
+print( 'triterm time:',round(time()-t0,3) ,'s\n')
 
 
 
@@ -610,94 +610,94 @@ dists = "jaccard_coef"
 
 t0 = time()
 df_all['st_pt__unigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_unigram'], x['pt_unigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_pd__unigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_unigram'], x['pd_unigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_at__unigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_unigram'], x['at_unigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_pd__unigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_unigram'], x['pd_unigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_at__unigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_unigram'], x['at_unigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pd_at__unigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pd_unigram'], x['at_unigram'] ,dists), axis=1))
 
-print 'unigram time:',round(time()-t0,3) ,'s\n'
+print( 'unigram time:',round(time()-t0,3) ,'s\n')
 
 
 t0 = time()
 df_all['st_pt__bigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_bigram'], x['pt_bigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_pd__bigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_bigram'], x['pd_bigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_at__bigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_bigram'], x['at_bigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_pd__bigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_bigram'], x['pd_bigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_at__bigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_bigram'], x['at_bigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pd_at__bigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pd_bigram'], x['at_bigram'] ), axis=1))
 
-print 'bigram time:',round(time()-t0,3) ,'s\n'
+print( 'bigram time:',round(time()-t0,3) ,'s\n')
 
 
 t0 = time()
 df_all['st_pt__trigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_trigram'], x['pt_trigram'] ,dists ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_pd__trigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_trigram'], x['pd_trigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_at__trigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_trigram'], x['at_trigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_pd__trigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_trigram'], x['pd_trigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_at__trigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_trigram'], x['at_trigram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pd_at__trigram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pd_trigram'], x['at_trigram'] ,dists), axis=1))
 
-print 'trigram time:',round(time()-t0,3) ,'s\n'
+print( 'trigram time:',round(time()-t0,3) ,'s\n')
 
 
 t0 = time()
 df_all['st_pt__fourgram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_fourgram'], x['pt_fourgram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_pd__fourgram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_fourgram'], x['pd_fourgram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_at__fourgram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_fourgram'], x['at_fourgram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_pd__fourgram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_fourgram'], x['pd_fourgram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_at__fourgram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_fourgram'], x['at_fourgram'] ,dists), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pd_at__fourgram_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pd_fourgram'], x['at_fourgram'] ), axis=1))
 
-print 'fourgram time:',round(time()-t0,3) ,'s\n'
+print( 'fourgram time:',round(time()-t0,3) ,'s\n')
 
 t0 = time()
 df_all['st_pt__biterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_biterm'], x['pt_biterm'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_pd__biterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_biterm'], x['pd_bigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_at__biterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_biterm'], x['at_bigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_pd__biterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_biterm'], x['pd_bigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_at__biterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_biterm'], x['at_bigram'] ), axis=1))
 
 
-print 'biterm time:',round(time()-t0,3) ,'s\n'
+print( 'biterm time:',round(time()-t0,3) ,'s\n')
 
 t0 = time()
 df_all['st_pt__triterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_triterm'], x['pt_triterm'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_pd__triterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_triterm'], x['pd_trigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['st_at__triterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['st_triterm'], x['at_trigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_pd__triterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_triterm'], x['pd_trigram'] ), axis=1))
-print 'time:',round(time()-t0,3) ,'s\n'
+print( 'time:',round(time()-t0,3) ,'s\n')
 df_all['pt_at__triterm_'+(dists)]=list(df_all.apply(lambda x : compute_dist(x['pt_triterm'], x['at_trigram'] ), axis=1))
 
 
-print 'triterm time:',round(time()-t0,3) ,'s\n'
+print( 'triterm time:',round(time()-t0,3) ,'s\n')
 
 
 #save features

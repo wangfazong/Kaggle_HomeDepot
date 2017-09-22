@@ -44,7 +44,7 @@ def replace_nan(s):
 
 p = df_all.keys()
 for i in range(len(p)):
-    print p[i]
+    print( p[i])
 
 
 
@@ -108,14 +108,14 @@ at = df_all["value"]
 #    p = at[i].split()
 #    t.append(p)
     
-print "first vocab"
+print( "first vocab")
 #st conc pt conc pd vocab
 t1 = list()
 for i in range(len(st)):
     p = st[i].split()+pt[i].split()+pd[i].split()+br[i].split()+mr[i].split()+ab[i].split()+at[i].split()
     t1.append(p)
 
-print "second vocab"
+print( "second vocab")
 
 #st + pt +pd +br + mr vocab w/o pars
 st1 = df_all["search_term"]
@@ -155,7 +155,7 @@ at1 = df_all["value"]
 #    p = at1[i].split()
 #    t2.append(p) 
 # 
-#print "third vocab"   
+#print( "third vocab"   
 
 #st conc pt conc pd conc br conc mr vocab w/o pars
 t3 = list()
@@ -163,15 +163,15 @@ for i in range(len(st)):
     p = st1[i].split()+pt1[i].split()+pd1[i].split()+br1[i].split()+mr1[i].split()+ab1[i].split()+at1[i].split()
     t3.append(p)
 
-print "fourth vocab" 
+print( "fourth vocab" )
 
 
 #model0 = gensim.models.Word2Vec(t, sg=1, window=10, sample=1e-5, negative=5, size=300)
 model1 = gensim.models.Word2Vec(t1, sg=1, window=10, sample=1e-5, negative=5, size=300)
-print "model prepared"
+print( "model prepared")
 #model2 = gensim.models.Word2Vec(t2, sg=1, window=10, sample=1e-5, negative=5, size=300)
 model3 = gensim.models.Word2Vec(t3, sg=1, window=10, sample=1e-5, negative=5, size=300)
-print "model prepared"
+print( "model prepared")
 #model4 = gensim.models.Word2Vec(t, sg=0,  hs=1, window=10,   size=300)
 #model5 = gensim.models.Word2Vec(t1, sg=0, hs=1,window=10,   size=300)
 #model6 = gensim.models.Word2Vec(t2, sg=0, hs=1, window=10,   size=300)
@@ -184,7 +184,7 @@ model_list=[model1,model3]
 n_sim=list()
 
 for model in model_list:
-    print "model features calculation"
+    print( "model features calculation")
     n_sim_pt=list()
     for i in range(len(st)):
         w1=st[i].split()
@@ -292,7 +292,7 @@ for model in model_list:
         else:    
             n_sim_ptpd.append(model.n_similarity(d1,d2))
     n_sim.append(n_sim_ptpd)
-    print "model features done"
+    print( "model features done")
 
 st_names=["id"]    
 #for j in range(len(n_sim)):   
