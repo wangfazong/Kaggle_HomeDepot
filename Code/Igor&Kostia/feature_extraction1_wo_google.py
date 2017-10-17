@@ -21,13 +21,13 @@ import os
 import nltk
 from nltk.corpus import wordnet as wn
 from nltk.corpus import stopwords
+
 stoplist = stopwords.words('english')
 stoplist.append('till')
 stoplist_wo_can=stoplist[:]
 stoplist_wo_can.remove('can')
 
 from .homedepot_functions import *
-
 
 t0 = time()
 t1 = time()
@@ -42,19 +42,13 @@ df_all = pd.read_csv(PROCESSINGTEXT_DIR+'/df_train_and_test_processed_wo_google.
 print( 'loading time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
-
-
 df_all = pd.merge(df_all, df_pro_desc, how='left', on='product_uid')
 df_all = pd.merge(df_all, df_attr_bullets, how='left', on='product_uid')
 print( 'merging time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
-
-
 for var in df_all.keys():
-    df_all[var]=df_all[var].fillna("") 
-
-
+    df_all[var]=df_all[var].fillna("")
 
 
 ### the function returns text after a specific word

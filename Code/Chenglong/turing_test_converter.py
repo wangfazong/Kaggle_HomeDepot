@@ -14,8 +14,8 @@ import scipy
 import numpy as np
 import pandas as pd
 
-import config
-from utils import pkl_utils
+from Code.Chenglong import config
+from Code.Chenglong.utils import pkl_utils
 
 
 class TuringTestConverter:

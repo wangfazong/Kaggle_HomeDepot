@@ -13,8 +13,8 @@ import matplotlib.pyplot as plt
 from matplotlib_venn import venn2
 plt.rcParams["figure.figsize"] = [5, 5]
 
-import config
-from utils import pkl_utils
+from Code.Chenglong import config
+from Code.Chenglong.utils import pkl_utils
 
 
 ## to suppress the ValueError

@@ -122,13 +122,7 @@ print( len(selected_vars))
 all_vars= list(df_all.keys())
 print( len(all_vars))
 
-
-
-
-
-
 #######################################
-
 
 from sklearn.cross_validation import StratifiedKFold
 from sklearn import preprocessing

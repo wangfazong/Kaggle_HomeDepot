@@ -6,7 +6,7 @@ Author: Kostia Omelianchuk
 Team: Turing test
 """
 
-from config_IgorKostia import *
+from .config_IgorKostia import *
 
 import numpy as np
 import pandas as pd
@@ -19,15 +19,11 @@ import re
 import os
 import math as m
 
-
-
-
 #data loading
 df_all=pd.read_csv(PROCESSINGTEXT_DIR+"/df_train_and_test_processed.csv", encoding="ISO-8859-1")
 df_all1=pd.read_csv(PROCESSINGTEXT_DIR+"/df_product_descriptions_processed.csv", encoding="ISO-8859-1")
 df_all2 = pd.merge(df_all, df_all1, how="left", on="product_uid")
 df_all = df_all2
-
 
 p = df_all.keys()
 for i in range(len(p)):
@@ -49,8 +45,6 @@ another_t=list()
 for i in range(len(st_lu)):
     t.append("")
     another_t.append("")
-
-   
     
 for i in range(len(st_lu)):
     
@@ -65,13 +59,13 @@ def dld(s1, s2):
     d = {}
     lenstr1 = len(s1)
     lenstr2 = len(s2)
-    for i in xrange(-1,lenstr1+1):
+    for i in range(-1,lenstr1+1):
         d[(i,-1)] = i+1
-    for j in xrange(-1,lenstr2+1):
+    for j in range(-1,lenstr2+1):
         d[(-1,j)] = j+1
  
-    for i in xrange(lenstr1):
-        for j in xrange(lenstr2):
+    for i in range(lenstr1):
+        for j in range(lenstr2):
             if s1[i] == s2[j]:
                 cost = 0
             else:

@@ -14,8 +14,8 @@ import re, regex
 import nltk
 import difflib
 
-import config
-import google_spelling_checker_dict
+from Code.Chenglong import config
+import Code.Chenglong.google_spelling_checker_dict
 
 
 class DictSpellingChecker:

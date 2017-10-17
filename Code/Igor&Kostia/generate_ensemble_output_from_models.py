@@ -17,20 +17,14 @@ import re
 import os
 from scipy.stats import pearsonr
 
-
 df_train = pd.read_csv(DATA_DIR+'/train.csv', encoding="ISO-8859-1")
 df_test = pd.read_csv(DATA_DIR+'/test.csv', encoding="ISO-8859-1")
 num_train = df_train.shape[0] #number of observations
 num_test = df_test.shape[0] #number of observations
 
-
-
-
 dir_name=MODELSENSEMBLE_DIR
 
-
 files = [f for f in os.listdir(dir_name) if os.path.isfile(os.path.join(dir_name, f))]
-
 
 ### Load files
 models=[]

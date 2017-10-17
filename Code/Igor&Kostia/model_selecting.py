@@ -33,12 +33,9 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.random_projection import sparse_random_matrix
 from sklearn import preprocessing
 
-
 drop_list= []
 
-
 #loading models
-
 
 #9 model
 train_f_1000 = pd.read_csv(MODELS_DIR+'/train_first_1000.csv', encoding="utf-8")
@@ -47,8 +44,6 @@ train_f_1001 = pd.read_csv(MODELS_DIR+'/train_first_1001.csv', encoding="utf-8")
 
 train_f_2000 = pd.read_csv(MODELS_DIR+'/train_first_2000.csv', encoding="utf-8")
 train_s_2000 = pd.read_csv(MODELS_DIR+'/train_second_2000.csv', encoding="utf-8")
-
-
 
 
 test_f_1000 = pd.read_csv(MODELS_DIR+'/test_first_1000.csv', encoding="utf-8")

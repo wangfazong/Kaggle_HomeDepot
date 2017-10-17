@@ -14,9 +14,9 @@ import scipy
 import pandas as pd
 import numpy as np
 
-import config
-from config import TRAIN_SIZE
-from utils import logging_utils, time_utils, pkl_utils, np_utils
+from Code.Chenglong import config
+from Code.Chenglong.config import TRAIN_SIZE
+from Code.Chenglong.utils import logging_utils, time_utils, pkl_utils, np_utils
 
 
 splitter_level1 = pkl_utils._load("%s/splits_level1.pkl"%config.SPLIT_DIR)

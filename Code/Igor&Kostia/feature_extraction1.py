@@ -25,7 +25,6 @@ stoplist_wo_can.remove('can')
 
 from .homedepot_functions import *
 
-
 t0 = time()
 t1 = time()
 
@@ -39,20 +38,13 @@ df_all = pd.read_csv(PROCESSINGTEXT_DIR+'/df_train_and_test_processed.csv')
 print( 'loading time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
-
-
 df_all = pd.merge(df_all, df_pro_desc, how='left', on='product_uid')
 df_all = pd.merge(df_all, df_attr_bullets, how='left', on='product_uid')
 print( 'merging time:',round((time()-t0)/60,1) ,'minutes\n')
 t0 = time()
 
-
-
 for var in df_all.keys():
     df_all[var]=df_all[var].fillna("") 
-
-
-
 
 ### the function returns text after a specific word
 ### for example, extract_after_word('faucets for kitchen') 
@@ -75,8 +67,6 @@ df_all['search_term_with_stemmed']=df_all['search_term_with'].map(lambda x:str_s
 df_all['product_title_parsed_without']=df_all['product_title_parsed'].map(lambda x: extract_after_word(x,'without'))
 df_all['product_title_without_stemmed']=df_all['product_title_parsed_without'].map(lambda x:str_stemmer_wo_parser(x,stoplist=stoplist_wo_can))
 
-
-
 ### save the list of string variables which are not features
 string_variables_list=list(df_all.keys())
 print( str(len(string_variables_list) ) + " total variables...")
@@ -85,8 +75,6 @@ string_variables_list.remove('product_uid')
 string_variables_list.remove('relevance')
 string_variables_list.remove('is_query_misspelled')
 print( "including "+ str(len(string_variables_list) ) + " text variables to drop later")
-
-
 
 t0 = time()
 #################################################################
@@ -101,11 +89,8 @@ df_all['no_bullets_dummy'] = df_all['attribute_bullets'].map(lambda x:int(len(x)
 from .google_dict import *
 df_all['is_replaced_using_google_dict']=df_all['search_term'].map(lambda x: 1 if x in google_dict.keys() else 0)
 
-
-
 df_attr_bullets=df_attr_bullets.drop(list(df_attr_bullets.keys()),axis=1)
 df_pro_desc=df_pro_desc.drop(list(df_pro_desc.keys()),axis=1)
-
 
 #################################################################
 ### STEP 2: Basic text features

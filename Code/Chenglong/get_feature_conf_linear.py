@@ -18,8 +18,8 @@ import re
 import os
 from optparse import OptionParser
 
-import config
-from utils import time_utils
+from Code.Chenglong import config
+from Code.Chenglong.utils import time_utils
 
 
 INCLUDE_FEATS = [

@@ -10,9 +10,9 @@ import sys
 
 import numpy as np
 
-import config
-from config import TRAIN_SIZE
-from utils import np_utils, pkl_utils
+from Code.Chenglong import config
+from Code.Chenglong.config import TRAIN_SIZE
+from Code.Chenglong.utils import np_utils, pkl_utils
 
 
 # Since we have many features that measure the correlation/similarity/distance

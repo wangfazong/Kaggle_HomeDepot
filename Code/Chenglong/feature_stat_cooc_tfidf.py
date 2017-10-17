@@ -15,10 +15,10 @@ from collections import defaultdict
 import numpy as np
 import pandas as pd
 
-import config
-from utils import dist_utils, ngram_utils, nlp_utils, np_utils, pkl_utils
-from utils import logging_utils, time_utils
-from feature_base import BaseEstimator, PairwiseFeatureWrapper
+from Code.Chenglong import config
+from Code.Chenglong.utils import dist_utils, ngram_utils, nlp_utils, np_utils, pkl_utils
+from Code.Chenglong.utils import logging_utils, time_utils
+from Code.Chenglong.feature_base import BaseEstimator, PairwiseFeatureWrapper
 
 
 # tune the token pattern to get a better correlation with y_train

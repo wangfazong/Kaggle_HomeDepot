@@ -5,8 +5,6 @@ Competition: HomeDepot Search Relevance
 Author: Igor Buinyi
 Team: Turing test
 """
-
-
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor, BaggingRegressor, GradientBoostingRegressor
@@ -22,12 +20,9 @@ from nltk.corpus import stopwords
 stoplist = stopwords.words('english')
 stoplist.append('till')
 
-
 import difflib
 
 stemmer = SnowballStemmer('english')
-
-
 
 #remove 'mirr edge' from Google dict
 

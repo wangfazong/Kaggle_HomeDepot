@@ -12,9 +12,9 @@ import pandas as pd
 from gensim.models import Word2Vec, Doc2Vec
 from gensim.models.doc2vec import LabeledSentence
 
-import config
-from utils import nlp_utils
-from utils import logging_utils, pkl_utils, time_utils
+from Code.Chenglong import config
+from Code.Chenglong.utils import nlp_utils
+from Code.Chenglong.utils import logging_utils, pkl_utils, time_utils
 
 
 # tune the token pattern to get a better correlation with y_train

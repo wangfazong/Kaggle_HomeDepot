@@ -10,10 +10,10 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
-import config
-from utils import dist_utils, ngram_utils, nlp_utils
-from utils import logging_utils, time_utils, pkl_utils
-from feature_base import BaseEstimator, StandaloneFeatureWrapper, PairwiseFeatureWrapper
+from Code.Chenglong import config
+from Code.Chenglong.utils import dist_utils, ngram_utils, nlp_utils
+from Code.Chenglong.utils import logging_utils, time_utils, pkl_utils
+from Code.Chenglong.feature_base import BaseEstimator, StandaloneFeatureWrapper, PairwiseFeatureWrapper
 
 
 class Doc2Vec_BaseEstimator(BaseEstimator):

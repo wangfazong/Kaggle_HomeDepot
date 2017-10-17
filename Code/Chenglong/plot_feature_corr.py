@@ -11,7 +11,7 @@ import re
 import numpy as np
 import matplotlib.pyplot as plt
 
-import config
+from Code.Chenglong import config
 
 
 def is_feat_log(fname):

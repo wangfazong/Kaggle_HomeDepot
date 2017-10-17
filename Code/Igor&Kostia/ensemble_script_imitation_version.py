@@ -8,7 +8,6 @@ Team: Turing test
 
 from .config_IgorKostia import *
 
-
 import os
 import pandas as pd
 import xgboost as xgb 
@@ -34,15 +33,7 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.random_projection import sparse_random_matrix
 from sklearn import preprocessing
 
-
 drop_list= []
-
-
-
-
-
-
-
 
 df_all = pd.read_csv(FEATURES_DIR+'/df_basic_features.csv', encoding="utf-8")
 df_all1 = pd.read_csv(FEATURES_DIR+'/df_thekey_dummies.csv', encoding="utf-8")
@@ -55,7 +46,6 @@ df_dist_new = pd.read_csv(FEATURES_DIR+'/df_dist_new.csv', encoding="utf-8")
 df_tfidf_intersept_new = pd.read_csv(FEATURES_DIR+'/df_tfidf_intersept_new.csv', encoding="utf-8")
 df_above15_ext = pd.read_csv(FEATURES_DIR+'/df_feature_above15_ext.csv', encoding="utf-8")
 
-
 df_all = pd.merge(df_all, df_dld, how='left', on='id')
 df_all = pd.merge(df_all, df_tfidf_st, how='left', on='id')
 df_all = pd.merge(df_all, df_word2vec, how='left', on='id')
@@ -66,10 +56,8 @@ df_all = pd.merge(df_all, df_all2, how='left', on='id')
 df_all = pd.merge(df_all, df_above15_ext, how='left', on='id')
 all_features=df_all
 
-
-
 def run(X,Y,X2,bclf,n_model):
-      
+
     
     t00=time()
     dev_cutoff = len(Y) #* 9/10
@@ -188,12 +176,10 @@ model_list=list([0,0,0,0,0,1,1,1,2])
 iteration=0
 for feature_set in feature_list:
     feat=pd.read_csv(FEATURESETS_DIR+'/'+feature_set+'.csv', encoding="utf-8")
-    
-    
+
     df_all=all_features[feat['feature_name'][:]]
     df_all["id"]=all_features["id"]
     df_all["relevance"]=all_features["relevance"]
-    
     
     df_train = pd.read_csv(DATA_DIR+'/train.csv', encoding="ISO-8859-1")
     df_test = pd.read_csv(DATA_DIR+'/test.csv', encoding="ISO-8859-1")
@@ -203,8 +189,7 @@ for feature_set in feature_list:
     df_train = df_all.iloc[:num_train]
     df_test = df_all.iloc[num_train:]
     id_test = df_test['id']
-    
-    
+
     #df_train = df_train.iloc[np.random.permutation(len(df_train))]
     
     y_train = df_train['relevance'].values
@@ -219,7 +204,6 @@ for feature_set in feature_list:
     X = preprocessing.scale(X,axis=0)
     X1 = X[:num_train]
     X2 = X[num_train:]
-
 
     print( iteration)
     bclf=LinearRegression()

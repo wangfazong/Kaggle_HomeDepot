@@ -19,8 +19,6 @@ import re
 import os
 import math as m
 
-
-
 #loading data
 df_all=pd.read_csv(PROCESSINGTEXT_DIR+"/df_train_and_test_processed.csv", encoding="ISO-8859-1")
 df_all1=pd.read_csv(PROCESSINGTEXT_DIR+"/df_product_descriptions_processed.csv", encoding="ISO-8859-1")
@@ -31,8 +29,6 @@ df_all2 = pd.merge(df_all, df_all1, how="left", on="product_uid")
 df_all = df_all2
 df_attr = pd.read_csv(PROCESSINGTEXT_DIR+'/df_attributes_kostia.csv', encoding="ISO-8859-1")
 df_all = pd.merge(df_all, df_attr, how='left', on='product_uid')
-
-
 
 #replace nan
 for var in df_all.keys():

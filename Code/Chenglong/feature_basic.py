@@ -12,10 +12,10 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelBinarizer
 
-import config
-from utils import ngram_utils, nlp_utils, np_utils
-from utils import time_utils, logging_utils, pkl_utils
-from feature_base import BaseEstimator, StandaloneFeatureWrapper
+from Code.Chenglong import config
+from Code.Chenglong.utils import ngram_utils, nlp_utils, np_utils
+from Code.Chenglong.utils import time_utils, logging_utils, pkl_utils
+from Code.Chenglong.feature_base import BaseEstimator, StandaloneFeatureWrapper
 
 
 # tune the token pattern to get a better correlation with y_train

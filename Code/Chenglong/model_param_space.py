@@ -8,7 +8,7 @@
 import numpy as np
 from hyperopt import hp
 
-import config
+from Code.Chenglong import config
 
 
 ## xgboost

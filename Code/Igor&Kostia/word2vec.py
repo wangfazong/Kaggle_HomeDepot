@@ -6,8 +6,7 @@ Author: Kostia Omelianchuk
 Team: Turing test
 """
 
-from config_IgorKostia import *
-
+from .config_IgorKostia import *
 
 import gensim
 import logging
@@ -22,7 +21,6 @@ import os
 import math as m
 import pandas as pd
 from gensim import models
-
 
 #loading data
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
@@ -46,8 +44,6 @@ def replace_nan(s):
         if pd.isnull(s)==True:
                 s=""
         return s
-
-
 
 
 df_all['search_term_stemmed'] = df_all['search_term_stemmed'].map(lambda x:replace_nan(x))

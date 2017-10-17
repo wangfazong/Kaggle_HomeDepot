@@ -36,12 +36,7 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.random_projection import sparse_random_matrix
 from sklearn import preprocessing
 
-
 drop_list= []
-
-
-
-
 
 #loading data
 df_all = pd.read_csv(FEATURES_DIR+'/df_basic_features.csv', encoding="utf-8")
@@ -53,8 +48,6 @@ df_tfidf_st = pd.read_csv(FEATURES_DIR+'/df_st_tfidf.csv', encoding="utf-8")
 df_word2vec = pd.read_csv(FEATURES_DIR+'/df_word2vec_new.csv', encoding="utf-8")
 df_dist_new = pd.read_csv(FEATURES_DIR+'/df_dist_new.csv', encoding="utf-8")
 df_tfidf_intersept_new = pd.read_csv(FEATURES_DIR+'/df_tfidf_intersept_new.csv', encoding="utf-8")
-
-
 
 df_all = pd.merge(df_all, df_dld, how='left', on='id')
 df_all = pd.merge(df_all, df_tfidf_st, how='left', on='id')
@@ -75,7 +68,6 @@ new_list.append('product_uid')
 new_list.append("Unnamed: 0")        
 df_all=df_all.drop(list(set(list(all_names & new_list))),axis=1)
 
-
 list_of_features=df_all.keys().drop(["relevance","id"])
 
 df_train = pd.read_csv(DATA_DIR+'/train.csv', encoding="ISO-8859-1")
@@ -86,7 +78,6 @@ num_train = df_train.shape[0]
 df_train = df_all.iloc[:num_train]
 df_test = df_all.iloc[num_train:]
 id_test = df_test['id']
-
 
 #df_train = df_train.iloc[np.random.permutation(len(df_train))]
 

@@ -7,9 +7,7 @@ Author: Kostia Omelianchuk
 Team: Turing test
 
 """
-
-
-from config_IgorKostia import *
+from .config_IgorKostia import *
 
 import gensim
 import logging
@@ -24,7 +22,6 @@ import os
 import math as m
 import pandas as pd
 from gensim import models
-
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 df_all=pd.read_csv(PROCESSINGTEXT_DIR+"/df_train_and_test_processed_wo_google.csv", encoding="ISO-8859-1")
@@ -47,10 +44,6 @@ for i in range(len(p)):
     print( p[i])
 
 
-
-
-
-
 df_all['search_term_stemmed'] = df_all['search_term_stemmed'].map(lambda x:replace_nan(x))
 df_all['product_title_stemmed'] = df_all['product_title_stemmed'].map(lambda x:replace_nan(x))
 df_all['product_description_stemmed'] = df_all['product_description_stemmed'].map(lambda x:replace_nan(x))
@@ -67,8 +60,6 @@ df_all['material'] = df_all['material'].map(lambda x:replace_nan(x))
 df_all['attribute_bullets'] = df_all['attribute_bullets'].map(lambda x:replace_nan(x))
 df_all['value'] = df_all['value'].map(lambda x:replace_nan(x))
 
-
-
 st = df_all["search_term_stemmed"]
 pt = df_all["product_title_stemmed"]
 pd = df_all["product_description_stemmed"]
@@ -76,7 +67,6 @@ br = df_all["brand_parsed"]
 mr = df_all["material_parsed"]
 ab = df_all["attribute_bullets_stemmed"]
 at = df_all["value"]
-
 
 ##st + pt +pd vocab
 #t = list()
@@ -301,12 +291,6 @@ for j in range(len(n_sim)):
 
     df_all["word2vec_"+str(name_list[j])]=n_sim[j]
     st_names.append("word2vec_"+str(name_list[j]))
-    
-
 
 b=df_all[st_names]
-b.to_csv(FEATURES_DIR+"/df_word2vec_wo_google_dict.csv", index=False) 
-
-
-
-
+b.to_csv(FEATURES_DIR+"/df_word2vec_wo_google_dict.csv", index=False)

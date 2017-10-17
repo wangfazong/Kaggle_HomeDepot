@@ -23,7 +23,6 @@ import sys
 
 from .homedepot_functions import str_stemmer
 
-
 ###data loading
 df_all=pd.read_csv(PROCESSINGTEXT_DIR+"/df_train_and_test_processed.csv", encoding="ISO-8859-1")
 df_all1=pd.read_csv(PROCESSINGTEXT_DIR+"/df_product_descriptions_processed.csv", encoding="ISO-8859-1")

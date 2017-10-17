@@ -15,7 +15,6 @@ import pandas as pd
 from sklearn.ensemble import GradientBoostingRegressor
 from time import time
 
-
 # get num_tain
 df_train = pd.read_csv(DATA_DIR+'/train.csv', encoding="ISO-8859-1")
 num_train = df_train.shape[0] #number of observations

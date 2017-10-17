@@ -13,16 +13,16 @@ import csv
 import imp
 
 import nltk
-import regex
+import re
 import numpy as np
 import pandas as pd
 import multiprocessing
 from bs4 import BeautifulSoup
 from collections import Counter
 
-import config
-from utils import ngram_utils, pkl_utils, logging_utils, time_utils
-from spelling_checker import GoogleQuerySpellingChecker, AutoSpellingChecker
+from Code.Chenglong import config
+from Code.Chenglong.utils import ngram_utils, pkl_utils, logging_utils, time_utils
+from Code.Chenglong.spelling_checker import GoogleQuerySpellingChecker, AutoSpellingChecker
 
 
 #--------------------------- Processor ---------------------------
@@ -34,10 +34,10 @@ class BaseReplacer:
     def transform(self, text):
         for pattern, replace in self.pattern_replace_pair_list:
             try:
-                text = regex.sub(pattern, replace, text)
+                text = re.sub(pattern, replace, text)
             except:
                 pass
-        return regex.sub(r"\s+", " ", text).strip()
+        return re.sub(r"\s+", " ", text).strip()
 
 
 ## deal with case

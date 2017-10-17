@@ -8,7 +8,7 @@
 import os
 import sys
 
-from utils import time_utils
+from Code.Chenglong.utils import time_utils
 
 if len(sys.argv) >= 3:
     suffix = sys.argv[1]

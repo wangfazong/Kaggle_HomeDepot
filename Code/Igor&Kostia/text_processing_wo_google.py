@@ -26,6 +26,7 @@ import os
 import nltk
 from nltk.corpus import wordnet as wn
 from nltk.corpus import stopwords
+
 stoplist = stopwords.words('english')
 stoplist.append('till')  # add 'till' to stoplist
 

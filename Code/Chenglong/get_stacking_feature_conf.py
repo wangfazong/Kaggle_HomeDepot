@@ -11,8 +11,8 @@ from optparse import OptionParser
 
 import pandas as pd
 
-import config
-from utils import time_utils
+from Code.Chenglong import config
+from Code.Chenglong.utils import time_utils
 
 
 def grab(pattern, text):

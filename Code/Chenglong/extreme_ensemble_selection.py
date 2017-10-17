@@ -40,10 +40,10 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-import config
-from utils import dist_utils, np_utils
-from utils import logging_utils, os_utils, pkl_utils, time_utils
-from get_stacking_feature_conf import get_model_list
+from Code.Chenglong import config
+from Code.Chenglong.utils import dist_utils, np_utils
+from Code.Chenglong.utils import logging_utils, os_utils, pkl_utils, time_utils
+from Code.Chenglong.get_stacking_feature_conf import get_model_list
 
 
 splitter_level1 = pkl_utils._load("%s/splits_level1.pkl"%config.SPLIT_DIR)
